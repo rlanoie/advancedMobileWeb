@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+	
+					
+					
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="width=device-width, height=device-height"/>
+        
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <link href="jquery-mobile/jquery.mobile.structure-1.3.0.min.css" rel="stylesheet" type="text/css">
+        
+        <title>DailyDose</title>
+	<script src="jquery-mobile/jquery-1.11.1.min.js"></script>
+    	<script src="jquery-mobile/jquery.mobile-1.3.0.min.js"></script>
+    </head>
+    <body>
+   
+        <section id = "index">    		
+            <section data-role="page" id="page"> 
+              <header data-role="header">
+                <h1>DailyDose</h1>
+				
+                <h2>Your Health & Wellness Start Here</h2>
+				
+              </header>
+              <div data-role="content">
+                <section id = "attention">
+					<form method="post" action="includes/loginProcess.php" id="loginform" class="modalInput">
+		                <div data-role="fieldcontain">
+        		          <input type="text" name="fName" id="fName" value="first name" required/>
+						  
+                		</div>
+		                <div data-role="fieldcontain">
+                		  <input type="text" name="lName" id="lName" value="last name" required />
+                		</div>
+                   		
+
+                   		<br>
+                   		<a href="#register">Register</a>
+                   		<br>
+						<div class="centeralign">
+							<button type="submit" name="formLogin" >Login</button>
+                   		</div>
+                   		
+                       
+                       </form>
+
+                   </section>
+               </div>
+               <div data-role="footer">
+                
+               </div>
+            </section>
+          <div data-role="page" id="register">
+              <div data-role="header">
+                <h1>Register</h1>
+              </div>
+              <div data-role="content">
+                <div data-role="fieldcontain">
+                  <label for="textinput2">First Name:</label>
+                  <input type="text" name="RegFNameInput" id="RegFNameInput" value=""  />
+                </div>
+                <div data-role="fieldcontain">
+                  <label for="textinput2">Last Name:</label>
+                  <input type="text" name="RegLNameInput" id="RegLNameInput" value=""  />
+                </div>
+                <div data-role="fieldcontain">
+                  <label for="email">Email:</label>
+                  <input type="email" name="RegEmail" id="RegEmail" value=""  />
+                </div>
+                <div data-role="fieldcontain">
+                  <label for="RegPassword">Password Input:</label>
+                  <input type="password" name="RegPassword" id="RegPassword" value=""  />
+                </div>                
+				
+             </div>
+            </div>
+
+
+		  <section data-role="page" id="dashboard">
+			<div data-role="panel" id="myPanel">
+				Edit Profile Settings
+			</div>
+    		<div data-role="header">
+				<figure>	
+					<a href="#myPanel" class="ui-btn ui-btn-inline ui-corner-all ui-shadow">
+					<img src="images/Menu-48.png" alt="Nav" width="42" height="42" border="0"></a>
+				</figure>
+			    <h1>DailyDose</h1>
+				
+			</div>
+
+		
+			<section class="content" data-role="content">
+				<section id = "attention">
+            
+                	<section class="centeralign margintop">
+                   		<p class="callout"> Warning!</p>
+						<p>You have one pescription refill due in 3 days</p>
+                   	</section>
+					
+					<section class = "fullwidth">
+						<div class="col-1-2"><a href="test" class="button" data-role="button">Ignore</a></div>
+						<div class="col-1-2"><a href="test" class="button" data-role="button">Renew</a></div>
+					</section>	   
+                </section>
+                <div>
+                	<ul data-role="listview" id="famlist">
+						<li class="famRow"><div class="col-1-80"><a href="#individualprescription" id="li1">Mom</a></div></li>
+		                <li><div class="col-1-80"><a href="#individualprescription" id="li2">Dad</a></div></li>
+        		        <li><div class="col-1-80"><a href="#individualprescription" id="li3">Child</a></div></li>
+					
+						<li>
+							<div class="col-1-80"><a href="#individualprescription" id="li">Name</a></div>
+							
+							<div id="lol" class="col-1-1rightmargin">
+							
+								<a id="plus" onclick="myfunt()">New</a>
+							</div>
+							
+							<div id="panel" class="col-1-100">
+								
+								<form method="post" id="loginform">
+									<input type="text" name="firstName" id="firstName" value ="First name"/> 
+									<input type="text" name="lastName" id="lastName" value ="Last name"/>
+									<button type="button" onclick="myFunction()">Save Changes</button>
+								</form>
+							</div>	
+						</li></ul>    
+
+					<script>
+					var counter = 20; //Set counter
+
+					
+					function myfunt(){
+						$("#panel").slideToggle("slow");
+					}
+					$(document).ready(function()
+					{
+						$("#panel").hide();
+						$("#flip").click(function()
+						{		
+							$("#panel").slideToggle("slow");
+						});
+					})
+
+					function myFunction() {
+						$("#panel").slideToggle("slow");
+						var x = document.getElementById("firstName").value;
+						var y = document.getElementById("lastName").value;
+						
+						document.getElementById("firstName").value = "first name";
+						document.getElementById("lastName").value = "last name";
+
+
+
+						var itm = famlist.lastChild;//used to get the last element of the fam list
+						var cln = itm.cloneNode(true);
+						document.getElementById("lol").style.display='none';
+						document.getElementById("li").innerHTML = x + " " + y;
+						
+						counter += 1;
+						document.getElementById("li").id = "li"+counter;
+						document.getElementById("panel").id = "panel"+counter;
+						document.getElementById("plus").id = "plus"+counter;
+						document.getElementById("lol").id = "lol"+counter;
+						document.getElementById("loginform").id = "loginform"+counter;
+						document.getElementById("firstName").id = "firstName"+counter;
+						document.getElementById("lastName").id = "lastName"+counter;
+						
+						famlist.appendChild(cln);
+					}
+					</script>
+					
+               
+                </div>
+			<br><br>	
+			</section>
+			
+			<footer data-role="footer">
+			    <div data-type="horizontal">
+					<div class="footercolumn">
+						
+						<div class="col-1-3"><a href="#prescriptions" class="buttonleft" data-role="button">Prescriptions</a></div>
+						<div class="col-1-3-1"><a href="#physicians" class="buttonsquare" data-role="button">Physicians</a></div>
+						<div class="col-1-3"><a href="#caregivers" class="buttonright" data-role="button">Caregivers</a></div>	
+					</div>
+				</div>
+			</footer>
+          </section>
+          
+		  <div data-role="page" id="individualprescription" data-add-back-btn="true">
+		    <div data-role="header">
+	      
+		      <h1>Prescriptions</h1>
+		      <h2 id="IndScripts"></h2>
+			  	<script>
+               		var getName = document.getElementById("li1").innerHTML;
+					document.getElementById("IndScripts").innerHTML = getName +"'s Prescriptions";		
+			   </script>
+	        </div>
+		    <section data-role="content">
+                <div>
+                	<ul data-role="listview" id="MemScripList">
+						<li class="famRow"><div class="col-1-80"><a href="#individualprescription" id="Msc1">Prescription1</a></div></li>
+		                <li><div class="col-1-80"><a href="#individualprescription" id="Msc2">Prescription2</a></div></li>
+        		        <li><div class="col-1-80"><a href="#individualprescription" id="Msc3">Prescription3</a></div></li>
+					
+						<li>
+							<div class="col-1-80"><a href="#individualprescription" id="Msc"></a></div>
+			
+							<div id="scripButton"><button type="button" id="addScrip" onclick="myMScripfunt()" class="col-1-1 addFamily">add prescription</button></div>
+							
+							<div id="MScripPanel" class="col-1-100">
+								
+								<form method="post" id="MScripform">
+									<input type="text" name="MScrip" id="MScrip"/> 
+									<button type="button" onclick="myMScripFunction()">Save Changes</button>
+								</form>
+							</div>	
+						</li></ul>    
+
+					<script>
+						var countScrip = 20; //Set counter
+
+					
+						function myMScripfunt(){
+							$("#MScripPanel").slideToggle("slow");
+						}
+						$(document).ready(function()
+						{
+							$("#MScripPanel").hide();
+							$("#flip").click(function()
+							{		
+								$("#MScripPanel").slideToggle("slow");
+							});
+						})
+
+					function myMScripFunction() 
+					{
+						$("#MScripPanel").slideToggle("slow");
+						var x = document.getElementById("MScrip").value;
+						
+						document.getElementById("MScrip").value = " ";
+						
+						var memscrip = MemScripList.lastChild;//used to get the last element of the fam list
+						var clnMemSc = memscrip.cloneNode(true);
+						document.getElementById("scripButton").style.display='none';
+						document.getElementById("Msc").innerHTML = x;
+						
+						countScrip += 1;
+						document.getElementById("Msc").id = "Msc"+countScrip;
+						document.getElementById("MScripPanel").id = "MScripPanel"+countScrip;
+						document.getElementById("addScrip").id = "addScrip"+countScrip;
+						document.getElementById("scripButton").id = "scripButton"+countScrip;
+						document.getElementById("MScripform").id = "MScripform"+countScrip;
+						document.getElementById("MScrip").id = "MScrip"+countScrip;
+						
+						MemScripList.appendChild(clnMemSc);
+					}
+					</script>
+					
+               
+                </div>	          		          		          		         
+		    </section>
+		    <footer data-role="footer">
+			    <div data-type="horizontal">
+					<div class="footercolumn">
+						 
+						<div class="col-1-3"><a href="#prescriptions" class="buttonleft" data-role="button">Prescriptions</a></div>
+						<div class="col-1-3-1"><a href="#physicians" class="buttonsquare" data-role="button">Physicians</a></div>
+						<div class="col-1-3"><a href="#caregivers" class="buttonright" data-role="button">Caregivers</a></div>	
+					</div>
+				</div>
+			</footer>
+	      </div>
+
+          <div data-role="page" id="physicians" data-add-back-btn="true">
+		    <div data-role="header">
+		      <h1>Physicians</h1>
+	        </div>
+		 	   <section data-role="content">
+                <div>
+                	<ul data-role="listview" id="PhysList">
+						<li class="famRow"><div class="col-1-80"><a href="#physicians" id="phys1">Physician1</a></div></li>
+		                <li><div class="col-1-80"><a href="#physicians" id="phys2">Physician2</a></div></li>
+        		        <li><div class="col-1-80"><a href="#physicians" id="phys3">Physician3</a></div></li>
+					
+						<li>
+							<div class="col-1-80"><a href="#physicians" id="phys"></a></div>
+			
+							<div id="physButton"><button type="button" id="addPhys" onclick="myPhysfunt()" class="col-1-1 addFamily">add physician</button></div>
+							
+							<div id="PhysPanel" class="col-1-100">
+								
+								<form method="post" id="MPhysform">
+									<input type="text" name="MPhys" id="MPhys"/> 
+									<button type="button" onclick="myPhysFunction()">Save Changes</button>
+								</form>
+							</div>	
+						</li></ul>    
+
+					<script>
+						var countScrip = 20; //Set counter
+
+					
+						function myPhysfunt(){
+							$("#PhysPanel").slideToggle("slow");
+						}
+						$(document).ready(function()
+						{
+							$("#PhysPanel").hide();
+							$("#flip").click(function()
+							{		
+								$("#PhysPanel").slideToggle("slow");
+							});
+						})
+
+					function myPhysFunction() 
+					{
+						$("#PhysPanel").slideToggle("slow");
+						var x = document.getElementById("MScrip").value;
+						
+						document.getElementById("MScrip").value = " ";
+						
+						var memscrip = PhysList.lastChild;//used to get the last element of the fam list
+						var clnMemSc = memscrip.cloneNode(true);
+						document.getElementById("physButton").style.display='none';
+						document.getElementById("phys").innerHTML = x;
+						
+						countScrip += 1;
+						document.getElementById("phys").id = "phys"+countScrip;
+						document.getElementById("PhysPanel").id = "PhysPanel"+countScrip;
+						document.getElementById("addPhys").id = "addPhys"+countScrip;
+						document.getElementById("physButton").id = "physButton"+countScrip;
+						document.getElementById("MPhysform").id = "MPhysform"+countScrip;
+						document.getElementById("MPhys").id = "MPhys"+countScrip;
+						
+						PhysList.appendChild(clnMemSc);
+					}
+					</script>
+					
+               
+                </div>	          		          		          		         
+		    </section>
+		    <footer data-role="footer">
+			    <div data-type="horizontal">
+					<div class="footercolumn">
+						 
+						<div class="col-1-3"><a href="#prescdriptions" class="buttonleft" data-role="button">Prescriptions</a></div>
+						<div class="col-1-3-1"><a href="#physicians" class="buttonsquare" data-role="button">Physicians</a></div>
+						<div class="col-1-3"><a href="#caregivers" class="buttonright" data-role="button">Caregivers</a></div>	
+					</div>
+				</div>
+			</footer>
+	      </div>
+
+          <section data-role="page" id="caregivers" data-add-back-btn="true">
+		    <div data-role="header">
+		      <h1>Cargivers</h1>
+	        </div>
+		    <div data-role="content">
+				<br>
+                	<ul data-role="listview" id="CareList">
+						<li class="famRow"><div class="col-1-80"><a href="#" id="care1">Caregiver1</a></div></li>
+		                <li><div class="col-1-80"><a href="#" id="care1">Caregiver2</a></div></li>
+        		        <li><div class="col-1-80"><a href="#" id="care1">Caregiver3</a></div></li>
+					
+						<li>
+							<div class="col-1-80"><a href="#" id="care"></a></div>
+			
+							<div id="physButton"><button type="button" id="addCare" onclick="myCarefunt()" class="col-1-1 addFamily">add Caregiver</button></div>
+							
+							<div id="CarePanel" class="col-1-100">
+								
+								<form method="post" id="Careform">
+									<input type="text" name="Careperson" id="Careperson"/> 
+									<button type="button" onclick="myCareFunction()">Save Changes</button>
+								</form>
+							</div>	
+						</li></ul>    
+
+					<script>
+						var countScrip = 20; //Set counter
+
+					
+						function myCarefunt(){
+							$("#CarePanel").slideToggle("slow");
+						}
+						$(document).ready(function()
+						{
+							$("#CarePanel").hide();
+							$("#flip").click(function()
+							{		
+								$("#CarePanel").slideToggle("slow");
+							});
+						})
+
+					function myCareFunction() 
+					{
+						$("#CarePanel").slideToggle("slow");
+						var x = document.getElementById("MScrip").value;
+						
+						document.getElementById("MScrip").value = " ";
+						
+						var memscrip = CareList.lastChild;//used to get the last element of the fam list
+						var clnMemSc = memscrip.cloneNode(true);
+						document.getElementById("physButton").style.display='none';
+						document.getElementById("care").innerHTML = x;
+						
+						countScrip += 1;
+						document.getElementById("care").id = "care"+countScrip;
+						document.getElementById("Careform").id = "Careform"+countScrip;
+						document.getElementById("addCare").id = "addCare"+countScrip;
+						document.getElementById("physButton").id = "physButton"+countScrip;
+						document.getElementById("Careform").id = "Careform"+countScrip;
+						document.getElementById("Careperson").id = "Careperson"+countScrip;
+						
+						PhysList.appendChild(clnMemSc);
+					}
+					</script>
+			</div>
+			<footer data-role="footer">
+			    <div data-type="horizontal">
+					<div class="footercolumn">
+						
+						<div class="col-1-3"><a href="#dashboard" class="buttonleft" data-role="button">Family</a></div>
+						<div class="col-1-3-1"><a href="#physicians" class="buttonsquare" data-role="button">Physicians</a></div>
+						<div class="col-1-3"><a href="#caregivers" class="buttonright" data-role="button">Caregivers</a></div>	
+					</div>
+				</div>
+			</footer>
+	      </section>    
+
+                              
+		  
+		  <section data-role="page" id="prescriptions">
+		    <div data-role="header">
+		      <h1>Prescriptions</h1>
+	        </div>
+		    <div data-role="content">
+				<br>
+		    	<ul data-role="listview">
+					<li><a href="#">Prescription1</a></li>
+					<li><a href="#">Prescription2</a></li>
+			  		<li><a href="#">Prescription3</a></li>
+		    	</ul>
+			</div>
+			<footer data-role="footer">
+			    <div data-type="horizontal">
+					<div class="footercolumn">
+						
+						<div class="col-1-3"><a href="#dashboard" class="buttonleft" data-role="button">Family</a></div>
+						<div class="col-1-3-1"><a href="#physicians" class="buttonsquare" data-role="button">Physicians</a></div>
+						<div class="col-1-3"><a href="#caregivers" class="buttonright" data-role="button">Caregivers</a></div>	
+					</div>
+				</div>
+			</footer>
+	      </section>    
+        
+        
+        
+        </section>
+    
+   
+    </body>
+</html>
