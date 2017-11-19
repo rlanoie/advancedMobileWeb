@@ -11,7 +11,7 @@
 		include_once '../includes/function.php';
  sec_session_start();
 print ('user is');
-  $username = $_SESSION['user']);
+  $username = $_SESSION['user'];
 		print ($_SESSION['username']);
     print ('<br>');
       
