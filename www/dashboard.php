@@ -9,11 +9,11 @@
 		include_once '../includes/login_process.php';
 
 		// check if user has logged in.  If not redirect to index page
-		if(login_check($db) == true) {
-  		$username = $_SESSION['username'];
-		} else { 
-					header('location:../index.html');
-		}
+		//if(login_check($db) == true) {
+  		//$username = $_SESSION['username'];
+		//} else { 
+			//		header('location:../index.html');
+		//}
 print ($_SESSION['user']['username']);
 	?>
 <html>
