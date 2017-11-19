@@ -1,0 +1,14 @@
+/*--Personalized colors scheme for Sunny View--*/
+.index-col-1 {
+  background-color: #fefe82;
+}
+
+.SectionContent h1, .SectionContent h2 {
+  			color: rgba(112, 3, 166, 0.97);
+}
+
+@media (max-width: 767px){
+  nav li a {
+    color: #fefe82;
+  }
+}
