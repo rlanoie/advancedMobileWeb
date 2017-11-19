@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../includes/session.php'; //start the session
   // Our custom secure way of starting a PHP session.
 include_once 'commonMsg.php';
