@@ -1,0 +1,33 @@
+	html, body {
+    height:100%;
+	}
+	body {
+		padding: 0;
+		margin: 0;
+		background: lightblue;
+	}
+
+	.ui-btn{
+		transition: 0.5s all;
+		-webkit-transition: 0.5s all;
+		-moz-transition: 0.5s all;
+		-o-transition: 0.5s all;
+		-ms-transition: 0.5s all;
+    
+    background-color: brown;
+  	border-radius: 5px;
+  	border-color: #1a8cff;
+  	border-style: solid;
+
+  	color: white;
+  	font-weight: bold;
+  	font-size: 18px;
+  	/*text-align: center;*/
+
+  	line-height: 10px;
+  	min-height: 40px;
+  	height:auto;
+  	
+  	margin-top:10px;
+  	
+}
