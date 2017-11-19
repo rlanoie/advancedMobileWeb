@@ -134,7 +134,7 @@
      
 ?> 
 <h1>Register</h1> 
-<form action="register.php" method="post"> 
+<form  method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"> 
     Username:<br /> 
     <input type="text" name="username" value="" /> 
     <br /><br /> 
