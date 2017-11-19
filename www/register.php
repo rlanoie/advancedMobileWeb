@@ -1,33 +1,8 @@
 <?php 
 
     // First we execute our common code to connection to the database and start the session 
-    
- // These variables define the connection information for your MySQL database 
-define("USER", "root");    // The database username. 
-    //$username = "root"; 
-define("PASSWORD", "SVAttendance81");    // The database password. 
-    //$password = "SVAttendance81"; 
-define("HOST", "localhost");     // The host you want to connect to.
-    //$host = "localhost"; 
-define("DATABASE", "svOperations");    // The database name.
-    //$dbname = "svOperations"; 
-    $host = HOST;
-    $dbname = DATABASE;
-    // UTF-8 is a character encoding scheme 
-    $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'); 
-     
-    //opens a connection to your database using the PDO library 
-    try 
-    { 
-       $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", USER, PASSWORD, $options); 
-
-    } 
-    catch(PDOException $ex) 
-    { 
-        die("Failed to connect to the database: " . $ex->getMessage()); 
-    } 
-
-     
+    include_once '../includes/database_connect.php'; //start the session
+ 
     // This if statement checks to determine whether the registration form has been submitted 
     // If it has, then the registration code is run, otherwise the form is displayed 
     if(!empty($_POST)) 

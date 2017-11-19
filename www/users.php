@@ -23,7 +23,6 @@
 		//} else { 
 			//header('location:../index.html');
 		//}
-print ('test');
 	?>
 <html>
 <!-- Head -->
