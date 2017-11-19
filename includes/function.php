@@ -126,6 +126,7 @@ function login($username, $db) {
               if($check_password === $row['password']) 
               {
                 $login_ok = true; 
+                print($login_ok);
               } else
               {
                 // Password is not correct
@@ -144,6 +145,7 @@ function login($username, $db) {
                 unset($row['password']); 
                 // This stores the user's data into the session at the index 'user'. 
                 $_SESSION['user'] = $row; 
+              print($_SESSION['user']);
                 $_SESSION['username'] = $row['username'];
                 $user_browser = $_SERVER['HTTP_USER_AGENT'];
                 print($_SERVER['HTTP_USER_AGENT']);
@@ -158,7 +160,7 @@ function login($username, $db) {
         
 
 }
-
+print($_SESSION['user']);
 function login_check($db){
     // Check if all session variables are set 
     if (isset($_SESSION['user'], $_SESSION['username'])) 
