@@ -18,11 +18,11 @@
 
 
 		// check if user has logged in.  If not redirect to index page
-		if(login_check($db) == true) {
-  		$username = $_SESSION['user']['username'];
-		} else { 
-			header('location:../index.html');
-		}
+		//if(login_check($db) == true) {
+  		//$username = $_SESSION['user']['username'];
+		//} else { 
+			//header('location:../index.html');
+		//}
 print ('test');
 	?>
 <html>

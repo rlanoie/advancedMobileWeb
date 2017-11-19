@@ -156,7 +156,7 @@ function login($username, $db) {
         
 
 }
-print($_SESSION['user']);
+
 function login_check($db){
     // Check if all session variables are set 
     if (isset($_SESSION['user'], $_SESSION['username'])) 
