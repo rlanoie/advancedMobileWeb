@@ -23,6 +23,7 @@ sec_session_start(); // Our custom secure way of starting a PHP session.
 		} else { 
 			header('location:../index.html');
 		}
+print ('test');
 	?>
 <html>
 <!-- Head -->
