@@ -4,7 +4,7 @@
 	License: Creative Commons Attribution 3.0 Unported
 	License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-
+<!DOCTYPE html>
  	<?php	
 		include_once '../includes/session.php'; //start the session
 		include_once '../includes/database_connect.php'; //start the session
@@ -24,7 +24,6 @@ print ('use');
 
 
 	?>
-<!DOCTYPE html>
 <html>
 <!-- Head -->
 <head>
