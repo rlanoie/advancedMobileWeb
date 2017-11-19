@@ -10,10 +10,10 @@
 		include_once '../includes/database_connect.php'; //start the session
 		include_once '../includes/function.php';
  sec_session_start();
-print ('use');
+print ('user is');
   print ($_SESSION['user']);
 		print ($_SESSION['username']);
-    
+    print ('<br>');
       
 		// check if user has logged in.  If not redirect to index page
 		// if(login_check($db) == true) {
