@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once '../includes/session.php'; //start the session
   // Our custom secure way of starting a PHP session.
 include_once 'commonMsg.php';
@@ -7,6 +8,7 @@ print ('user is');
   print ($_SESSION['user']);
 		print ($_SESSION['username']);
     print ('<br>');
+$_SESSION['TEST'] = "1563";
 function checkbrute($user_id, $db) {
 
     // Get timestamp of current time 
