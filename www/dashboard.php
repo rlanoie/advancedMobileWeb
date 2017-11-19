@@ -11,11 +11,11 @@
 		include_once '../includes/function.php';
 sec_session_start(); // Our custom secure way of starting a PHP session.
 		// check if user has logged in.  If not redirect to index page
-		if(login_check($db) == true) {
-  		$username = $_SESSION['username'];
-		} else { 
-					header('location:../index.html');
-		}
+		// if(login_check($db) == true) {
+  		// $username = $_SESSION['username'];
+		// } else { 
+				// header('location:../index.html');
+		// }
 
 
 	?>
