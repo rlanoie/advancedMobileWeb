@@ -1,0 +1,43 @@
+
+<html>
+		<head>
+	<title>Find a Contact</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+ <link rel="stylesheet" href="mod2css.css" type="text/css" media="all">
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="javascript/storage.js"></script>
+</head>
+	<body>
+		<div id="page" data-role="page" data-theme="b" >
+	<div data-role="header" data-theme="b">
+<h1>
+	Find your order
+		</h1>	</div>
+				<div data-role="content">
+
+		               <form method="post" action="findorder.php">
+                  <table width="400" border="0" cellspacing="1" cellpadding="2">
+                     <tr>
+                        <td width="100">Confirmation Number</td>
+                        <td><input name="conf_num" type="text" id="conf_num"></td>
+                     </tr>
+
+                     <tr>
+                        <td width="100"> </td>
+                        <td>
+                           <input name="find" type="submit" id="add" value="Find your order">
+                        </td>
+                     </tr>
+
+                  </table>
+               </form>
+	</div>
+
+				<div data-role="footer" data-theme="b">
+	  <h4>Darice Corey-Gilbert &copy; 2017</h4>
+	</div>
+	</body>
+</html>
