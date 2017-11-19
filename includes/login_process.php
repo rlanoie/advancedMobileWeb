@@ -1,13 +1,13 @@
 
 
 <?php 
-include_once 'session.php'; //start the session
-include_once 'database_connect.php'; //connection to the database
+include_once 'session.php';
+include_once 'database_connect.php';
 include_once 'function.php';
 include_once 'commonMsg.php';
 
     // First we execute our common code to connection to the database and start the session 
-    sec_session_start(); // Our custom secure way of starting a PHP session.
+    //sec_session_start(); // Our custom secure way of starting a PHP session.
     
     // This if statement checks to determine whether the login form has been submitted 
     // If it has, then the login code is run, otherwise the form is displayed 

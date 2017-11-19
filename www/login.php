@@ -7,7 +7,7 @@
 <!DOCTYPE html>
  	<?php	
 		include_once '../includes/login_process.php';
-print ($_SESSION['user']);
+
 ?>
 <html>
 <!-- Head -->

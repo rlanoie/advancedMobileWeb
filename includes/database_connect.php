@@ -1,7 +1,7 @@
 <?php
-include_once 'session.php'; //start the session
+//include_once 'session.php'; //start the session
 include_once '../common.php';
-sec_session_start(); // Our custom secure way of starting a PHP session.
+//sec_session_start(); // Our custom secure way of starting a PHP session.
 
 
     $host = HOST;
