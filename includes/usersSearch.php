@@ -1,5 +1,5 @@
 	<?php
-include_once '../includes/database_connect.php'; //start the session
+		include_once '../includes/database_connect.php'; //start the session
 		include_once 'function.php';
     
   	//DECLARE VARIABLES
@@ -24,7 +24,8 @@ include_once '../includes/database_connect.php'; //start the session
     $paramaters[1]="";
     $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
     $count = $queryResults['stmt']->rowCount();
-
+print($queryResults);
+return;
 		if ($_SERVER["REQUEST_METHOD"] == "POST" ) 
 		{
 			if (isset($_POST['formFilterID']) AND $_POST['formFilterID'] != ''){
