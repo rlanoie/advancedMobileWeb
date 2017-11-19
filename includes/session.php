@@ -15,5 +15,5 @@ function sec_session_start() {
     // Sets the session name to the one set above.
     session_name($session_name);
     session_start();            // Start the PHP session 
-    session_regenerate_id();    // regenerated the session, delete the old one. 
+    //session_regenerate_id();    // regenerated the session, delete the old one. 
 }
