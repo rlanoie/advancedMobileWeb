@@ -9,7 +9,7 @@
 		include_once '../includes/session'; //start the session
 		include_once '../includes/database_connect.php'; //start the session
 		include_once '../includes/function.php';
-if (@session_id() == "") sec_session_start(); // Our custom secure way of starting a PHP session.
+if (@session_id() == "") @session_start(); // Our custom secure way of starting a PHP session.sec_session_start()
 
 		 check if user has logged in.  If not redirect to index page
 		 if(login_check($db) == true) {
