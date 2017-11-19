@@ -4,7 +4,10 @@ include_once 'commonMsg.php';
 include_once '../includes/session.php'; //start the session
  sec_session_start();
 $errorMsg;
-
+print ('user is');
+  print ($_SESSION['user']);
+		print ($_SESSION['username']);
+    print ('<br>');
 function checkbrute($user_id, $db) {
 
     // Get timestamp of current time 
