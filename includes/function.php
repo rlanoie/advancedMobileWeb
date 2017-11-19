@@ -1,12 +1,4 @@
 <?php
-require_once 'Microsoft/WindowsAzure/Storage/Table.php';
-require_once 'Microsoft/WindowsAzure/SessionHandler.php';
-$storageClient = new Microsoft_WindowsAzure_Storage_Table('table.core.windows.net', 
-                                                          'your storage account name', 
-                                                          'your storage account key');
-$sessionHandler = new Microsoft_WindowsAzure_SessionHandler($storageClient , 'sessionstable');
-$sessionHandler->register();
-session_start();
 include_once '../includes/session.php'; //start the session
   // Our custom secure way of starting a PHP session.
 include_once 'commonMsg.php';

@@ -6,22 +6,15 @@
 -->
 <!DOCTYPE html>
  	<?php
-		include_once '../includes/session.php'; //start the session
-require_once 'Microsoft/WindowsAzure/Storage/Table.php';
-require_once 'Microsoft/WindowsAzure/SessionHandler.php';
-$storageClient = new Microsoft_WindowsAzure_Storage_Table('table.core.windows.net', 
-                                                          'your storage account name', 
-                                                          'your storage account key');
-$sessionHandler = new Microsoft_WindowsAzure_SessionHandler($storageClient , 'sessionstable');
-$sessionHandler->register();
  session_start(); // Our custom secure way of starting a PHP session.
 		//include_once '../includes/database_connect.php'; //start the session
 		include_once '../includes/function.php';
-		
+		$_SESSION['TEST'] = "1563";
 print ('user is');
   $username = $_SESSION['user'];
 		print ($_SESSION['username']);
-    print ('<br>');
+    print ('<br> <br> Session test' );
+print ($_SESSION['TEST']);
       
 		// check if user has logged in.  If not redirect to index page
 		// if(login_check($db) == true) {
