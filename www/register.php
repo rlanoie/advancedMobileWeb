@@ -113,7 +113,7 @@
         { 
             // Execute the query to create the user 
             $stmt = $db->prepare($query); 
-          print($stmt);
+         
             $result = $stmt->execute($query_params); 
         } 
         catch(PDOException $ex) 
@@ -122,14 +122,14 @@
             // It may provide an attacker with helpful information about your code.  
             die("Failed to run query: " . $ex->getMessage()); 
         } 
-         
+          print($stmt);
         // This redirects the user back to the login page after they register 
         //header("Location: ../www/login.php"); 
          
         // Calling die or exit after performing a redirect using the header function 
         // is critical.  The rest of your PHP script will continue to execute and 
         // will be sent to the user if you do not die or exit. 
-        die("Redirecting to login.php"); 
+        //die("Redirecting to login.php"); 
     } 
      
 ?> 
