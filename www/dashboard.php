@@ -7,7 +7,7 @@
 <!DOCTYPE html>
  	<?php
 		include_once '../includes/session.php'; //start the session
- sec_session_start(); // Our custom secure way of starting a PHP session.
+ session_start(); // Our custom secure way of starting a PHP session.
 		//include_once '../includes/database_connect.php'; //start the session
 		include_once '../includes/function.php';
 		

@@ -15,7 +15,7 @@ include_once 'commonMsg.php';
     {
       
       $username = $_POST['username'];
-      print($_SERVER['HTTP_USER_AGENT']);
+     
       if(login($username, $db)==true)
       {
         header('Location: ../www/dashboard.php');
