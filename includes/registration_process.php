@@ -124,7 +124,7 @@ include_once '../includes/database_connect.php'; //start the session
          header("Location: ../www/login.php"); 
          
      
-         die("Redirecting to login.php"); 
+         
     } 
      
 ?> 
