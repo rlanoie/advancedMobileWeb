@@ -22,7 +22,7 @@ print ('use');
 				// header('location:../index.html');
 		// }
 
-
+print('hu');
 	?>
 <html>
 <!-- Head -->
