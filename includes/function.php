@@ -1,7 +1,8 @@
 <?php
 
 include_once 'commonMsg.php';
-
+include_once '../includes/session.php'; //start the session
+sec_session_start(); // Our custom secure way of starting a PHP session.
 $errorMsg;
 
 function checkbrute($user_id, $db) {
