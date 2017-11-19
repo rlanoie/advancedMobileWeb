@@ -18,9 +18,7 @@
               INNER JOIN userInfo 
               ON users.id = userInfo.id
               ORDER BY userLastName ASC"; 
-echo "<p style='font-weight: bold;font-size: 18px;'>" . $query_UserFilter . "</p>";
 
-print('<br>');
     $paramaters[0]="";
     $paramaters[1]="";
     $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
@@ -65,6 +63,9 @@ print('<br>');
 
     $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
     $count = $queryResults['stmt']->rowCount();
+		echo "<p style='font-weight: bold;font-size: 18px;'>" . $query_UserFilter . "</p>";
+
+print('<br>');
   }
 //check integrity of input
 		function test_input($data) {
