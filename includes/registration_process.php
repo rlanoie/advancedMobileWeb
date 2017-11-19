@@ -121,10 +121,10 @@ include_once '../includes/database_connect.php'; //start the session
         } 
           print($stmt);
         // This redirects the user back to the login page after they register 
-        // header("Location: ../www/login.php"); 
+         header("Location: ../www/login.php"); 
          
      
-        // die("Redirecting to login.php"); 
+         die("Redirecting to login.php"); 
     } 
      
 ?> 
