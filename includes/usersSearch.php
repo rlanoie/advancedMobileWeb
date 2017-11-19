@@ -23,7 +23,9 @@
     $paramaters[1]="";
     $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
     $count = $queryResults['stmt']->rowCount();
+echo "<p style='font-weight: bold;font-size: 18px;'> <br> Pg Load Queary: <br>" . $query_UserFilter . "</p>";
 
+print('<br>');
 	if ($_SERVER["REQUEST_METHOD"] == "POST" ) 
 		{
 			if (isset($_POST['formFilterID']) AND $_POST['formFilterID'] != ''){
@@ -63,7 +65,7 @@
 
     $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
     $count = $queryResults['stmt']->rowCount();
-		echo "<p style='font-weight: bold;font-size: 18px;'>" . $query_UserFilter . "</p>";
+		echo "<p style='font-weight: bold;font-size: 18px;'><br> Filtered Queary: <br>" . $query_UserFilter . "</p>";
 
 print('<br>');
   }
