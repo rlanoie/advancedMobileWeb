@@ -1,6 +1,5 @@
 <?php 
 
-    // First we execute our common code to connection to the database and start the session 
     include_once '../includes/database_connect.php'; //start the session
  
     // This if statement checks to determine whether the registration form has been submitted 
@@ -126,9 +125,7 @@
         // This redirects the user back to the login page after they register 
         //header("Location: ../www/login.php"); 
          
-        // Calling die or exit after performing a redirect using the header function 
-        // is critical.  The rest of your PHP script will continue to execute and 
-        // will be sent to the user if you do not die or exit. 
+     
         //die("Redirecting to login.php"); 
     } 
      
@@ -144,5 +141,6 @@
     Password:<br /> 
     <input type="password" name="password" value="" /> 
     <br /><br /> 
-    <input type="submit" value="Register" /> 
+    
+  	<button type="submit" >Register</button>	
 </form>
