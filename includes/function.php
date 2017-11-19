@@ -1,7 +1,7 @@
 <?php
-include_once 'commonMsg.php';
 include_once '../includes/session.php'; //start the session
-sec_session_start(); 
+ sec_session_start(); // Our custom secure way of starting a PHP session.
+include_once 'commonMsg.php';
 $errorMsg;
 print ('user is');
   print ($_SESSION['user']);
