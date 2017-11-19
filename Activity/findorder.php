@@ -30,7 +30,7 @@
 						JOIN orders on customers.customerid = orders.customerid
 						WHERE conf_num LIKE :conf_num LIMIT 100");
 					
-					$result = mysqli_query($conn, $sql);
+				//	$result = mysqli_query($conn, $sql);
 					
 					
         $stmt->bind_param(':conf_num', $conf_num);  // Bind "$email" to parameter.
