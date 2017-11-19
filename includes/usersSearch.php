@@ -18,7 +18,7 @@
               INNER JOIN userInfo 
               ON users.id = userInfo.id
               ORDER BY userLastName ASC"; 
-echo "<p style='bold'>" . $query_UserFilter . "</p>";
+echo "<p style='font-weight: bold;font-size: 18px;'>" . $query_UserFilter . "</p>";
 
 print('<br>');
     $paramaters[0]="";
