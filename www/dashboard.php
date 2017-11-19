@@ -6,11 +6,10 @@
 -->
 <!DOCTYPE html>
  	<?php
-		sec_session_start();
-		include_once '../includes/session.php'; //start the session
-		include_once '../includes/database_connect.php'; //start the session
+		//include_once '../includes/session.php'; //start the session
+		//include_once '../includes/database_connect.php'; //start the session
 		include_once '../includes/function.php';
-
+		
 print ('user is');
   $username = $_SESSION['user'];
 		print ($_SESSION['username']);
