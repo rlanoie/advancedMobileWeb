@@ -19,7 +19,7 @@
               ON users.id = userInfo.id
               ORDER BY userLastName ASC"; 
 print($query_UserFilter);
-
+print('<br>');
     $paramaters[0]="";
     $paramaters[1]="";
     $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
