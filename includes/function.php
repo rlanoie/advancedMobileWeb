@@ -1,8 +1,8 @@
 <?php
-
+sec_session_start();
 include_once 'commonMsg.php';
 include_once '../includes/session.php'; //start the session
- sec_session_start();
+ 
 $errorMsg;
 print ('user is');
   print ($_SESSION['user']);
