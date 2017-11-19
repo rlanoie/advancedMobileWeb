@@ -1,8 +1,8 @@
 
 
 <?php 
-include_once 'session.php';
-include_once 'database_connect.php';
+include_once 'session.php'; //start the session
+include_once 'database_connect.php'; //connection to the database
 include_once 'function.php';
 include_once 'commonMsg.php';
 
@@ -15,11 +15,10 @@ include_once 'commonMsg.php';
     {
       
       $username = $_POST['username'];
+      print($_SERVER['HTTP_USER_AGENT']);
       if(login($username, $db)==true)
       {
-        print('username: <br>');
-  print $username;
-        //header('Location: ../www/dashboard.php');
+        header('Location: ../www/dashboard.php');
       } else {
         // Login failed 
         header('Location: ../www/login.php?error=1');

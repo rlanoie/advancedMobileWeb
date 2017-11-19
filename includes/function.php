@@ -142,7 +142,7 @@ function login($username, $db) {
                 $_SESSION['user'] = $row; 
                 $_SESSION['username'] = $row['username'];
                 $user_browser = $_SERVER['HTTP_USER_AGENT'];
-
+                print($_SERVER['HTTP_USER_AGENT']);
                 $_SESSION['login_string'] = hash('sha512', $row['password'] . $user_browser);
               return true;
             } 

@@ -8,9 +8,14 @@
 
 <!DOCTYPE html>
  	<?php	
-		include_once '../includes/login_process.php';
+		include_once '../includes/session.php'; //start the session
+		include_once '../includes/database_connect.php'; //start the session
+		include_once '../includes/function.php';
+
     include_once '../includes/usersSearch.php';
 	//	include_once '../includes/userChanges.php';
+sec_session_start(); // Our custom secure way of starting a PHP session.
+
 
 		// check if user has logged in.  If not redirect to index page
 		if(login_check($db) == true) {
@@ -22,7 +27,7 @@
 <html>
 <!-- Head -->
 <head>
-	<title>Admin Page</title>
+	<title>Users Page</title>
 	<!-- Meta-Tawgs -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">

@@ -6,7 +6,7 @@ include_once '../common.php';
     // UTF-8 is a character encoding scheme 
     $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'); 
      
-    //opens a connection to your database using the PDO library 
+    //opens a connection to the database using PDO library 
     try 
     { 
        $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", USER, PASSWORD, $options); 
