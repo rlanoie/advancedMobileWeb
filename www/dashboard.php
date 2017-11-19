@@ -11,7 +11,7 @@
 		include_once '../includes/function.php';
  sec_session_start();
 print ('user is');
-  print ($_SESSION['user']);
+  $username = $_SESSION['user']);
 		print ($_SESSION['username']);
     print ('<br>');
       
@@ -22,7 +22,7 @@ print ('user is');
 				// header('location:../index.html');
 		// }
 
-print('hu');
+
 	?>
 <html>
 <!-- Head -->
