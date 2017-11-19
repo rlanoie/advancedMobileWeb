@@ -1,4 +1,5 @@
 	<?php
+include_once '../includes/database_connect.php'; //start the session
 		include_once 'function.php';
     
   	//DECLARE VARIABLES
