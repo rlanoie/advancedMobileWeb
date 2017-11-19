@@ -1,5 +1,4 @@
 <?php
-session_start();
 include_once '../includes/session.php'; //start the session
   // Our custom secure way of starting a PHP session.
 include_once 'commonMsg.php';
@@ -76,7 +75,6 @@ function sqlQuery($query, $Paramaters, $db){
 }
 /*Function checks the login credentials*/
 function login($username, $db) {
-  session_start();
         //run query against the users table to check if user exists.
           $query = " SELECT id, username, password, salt, email 
                    FROM users 
