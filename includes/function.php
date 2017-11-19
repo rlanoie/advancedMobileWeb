@@ -2,7 +2,7 @@
 
 include_once 'commonMsg.php';
 include_once '../includes/session.php'; //start the session
-
+ sec_session_start();
 $errorMsg;
 
 function checkbrute($user_id, $db) {
