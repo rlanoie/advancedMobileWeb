@@ -6,7 +6,7 @@
 -->
 <!DOCTYPE html>
  	<?php	
-		require '../includes/login_process.php';
+		include_once '../includes/login_process.php';
 ?>
 <html>
 <!-- Head -->
