@@ -17,6 +17,7 @@ include_once 'commonMsg.php';
       $username = $_POST['username'];
       if(login($username, $db)==true)
       {
+        print('username: <br>');
   print $username;
         //header('Location: ../www/dashboard.php');
       } else {
