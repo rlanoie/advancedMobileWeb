@@ -22,7 +22,7 @@ print($query_UserFilter);
 
     $paramaters[0]="";
     $paramaters[1]="";
-   // $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
+    $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
     //$count = $queryResults['stmt']->rowCount();
 print($queryResults);
 
