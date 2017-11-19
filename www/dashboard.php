@@ -12,9 +12,9 @@
 		if(login_check($db) == true) {
   		$username = $_SESSION['username'];
 		} else { 
-			//		header('location:../index.html');
+					header('location:../index.html');
 		}
-
+print ($_SESSION['user']['username']);
 	?>
 <html>
 <!-- Head -->
