@@ -1,7 +1,7 @@
 <?php
 
 include_once 'commonMsg.php';
-require '../includes/session.php'; //start the session
+include_once '../includes/session.php'; //start the session
 
 $errorMsg;
 
