@@ -11,25 +11,35 @@
 		include_once'../includes/dBconnect.php';
 		include_once '../includes/session.php';
 		include_once '../includes/function.php';
-    include_once '../includes/usersSearch.php';
-		include_once '../includes/userChanges.php';
+//    include_once '../includes/usersSearch.php';
+//		include_once '../includes/userChanges.php';
+		include_once '../includes/attendanceUpdate.php';
 sec_session_start(); //start the session
 
 // check if user has logged in.  If not redirect to index page
 	$password = $_SESSION['postpassword'];
 	if(login_check($password, $db) == true) {
-  	$username = $_SESSION['user']['username'];	
+  	$username = $_SESSION['user']['username'];
+		$userID = $_SESSION['user']['id'];
+
 	} else { 
 		header('location:../index.html');
 	}
 
+		date_default_timezone_set('America/Los_Angeles');
+		$today = date("Y-m-d");
+
 	//used to determine if this is a page (load or modal submit) or if the filter form has been submitted.
 	//This will print the default query on the page load and modal submit.
 	//TO BE ADDED mehtod to revert back to the default query.
-	if($_SERVER["REQUEST_METHOD"] == "GET" OR ($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal'])))
-	{
-		$queryResults = defaultQuery($db);	
-	}
+//	if($_SERVER["REQUEST_METHOD"] == "GET" OR ($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal'])))
+	//{
+		//$queryResults = defaultQuery($db);	
+		
+	//}
+$queryResults = addAttendance($db);
+$count = $GLOBALS['countAttendance'];
+
 	/*if($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal']))
 	{
 		$queryResults = defaultQuery($db);	
@@ -39,7 +49,7 @@ sec_session_start(); //start the session
 <html>
 <!-- Head -->
 <head>
-	<title>User Page</title>
+	<title>Attendance</title>
 	<!-- Meta-Tawgs -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -134,86 +144,53 @@ sec_session_start(); //start the session
 		<div class="container">
 			<h1 class="section_head">Users</h1>
 				<div class="body">
-					<div class="team-row search">
-						<div class="col-md-3 team-grids">
-							<div id="flip"><a>Additional Search Features</a></div>																
-						</div>
-						<div class="clearfix"> </div>
-					</div>
 					<form method="POST" name="filterEmployees" id="filterEmployees" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 						<div class="row">
-								<div class="col-md-3">
-									<h4>ID</h4> 
-									<input type="text" name="formFilterID" id="formFilterID" value="<?php echo($formFilterID_field)?>"/> 
-			  			    <div data-role="fieldcontain">
-			      			  <fieldset data-role="controlgroup">
-    	  		    			<input type="radio" name="formFilterID_radio" id="radio3_0" value="=" <?php echo ($formFilterID_radio=='=')?'checked':'' ?>>
-  	        					<label for="radio2_0">Exact Match</label>
-	          					<input type="radio" name="formID_radio" id="radio3_1" value=" LIKE " <?php echo ($formFilterID_radio==' LIKE ')?'checked':'' ?>/>
-											<label for="radio2_1">Contains</label>
-        						</fieldset>
-      						</div>
-								</div>
-								<div class="col-md-4">
-				    	  	<h4>Last Name:</h4>
-									<input type="text" name="formLastName" id="formLastName" value="<?php echo($formLastName_field)?>"/> 
-									<div data-role="fieldcontain">
-	    			  			<fieldset data-role="controlgroup">
-  		    		  	  	<input type="radio" name="formLastName_radio" id="formLastName_radio_0" value="=" <?php echo ($formLastName_radio=='=')?'checked':'' ?>/>
-  	  	    		  		<label for="radio1_0">Exact Match</label>
-	      	    				<input type="radio" name="formLastName_radio" id="formLastName_radio_1" value=" LIKE " <?php echo ($formLastName_radio==' LIKE ')?'checked':'' ?>/>
-        	  					<label for="radio1_1">Contains</label>
-		        				</fieldset>
-  		    				</div>
-								</div>
-								<div class="col-md-4">
-									<h4>First Name</h4>
-									<input type="text" name="formFirstName" id="formFirstName" value="<?php echo($formFirstName_field)?>"/> 
-						      <div data-role="fieldcontain">
-      						  <fieldset data-role="controlgroup">
-        	  					<input type="radio" name="formFirstName_radio" id="formFirstName_radio_0" value="=" <?php echo ($formFirstName_radio=='=')?'checked':'' ?>>
-          						<label for="radio2_0">Exact Match</label>
-	          					<input type="radio" name="formFirstName_radio" id="formFirstName_radio_1" value=" LIKE " <?php echo ($formFirstName_radio==' LIKE ')?'checked':'' ?>/>
-											<label for="radio2_1">Contains</label>
-    	    					</fieldset>
-      						</div>
-								</div>
-								<div class="clearfix"> </div>
+							<div class="col-md-2">
+				    	 	<h4>Date:</h4>
+								<input type="date" name="frmDate" id="frmDate" value="<?php echo $today;?>"/> 
+  		    		</div>							
+							<div class="col-md-3">
+								<h4>ResID:</h4> 
+								<input type="text" name="formResID" id="formResID"/> 
 							</div>
-						<div class="team-row">
-								<div class="col-md-4">
-									<button type="submit" name="formSubmit">Filter</button>	
-								</div>
-								<div class="col-md-4">									
-									<a href="#"data-toggle="modal" data-target="#contact_dialog">add user</a>
-								</div> 
-								<div class="clearfix"> </div>
-							</div>
-					</form>
+							<div class="col-md-4">
+								<h4>UserID:</h4>
+								<input type="text" name="formUserID" id="formUserID" value="<?php echo $userID;?>"/> 
+      				</div>
+							<div class="clearfix"> </div>
+						</div>
+					<div class="team-row">
+						<div class="col-md-4">
+							<button type="submit" name="formSubmit">Add</button>	
+						</div> 
+						<div class="clearfix"> </div>
+					</div>
+				</form>
 					<?php
           	if($_SERVER["REQUEST_METHOD"]=="POST" )
             {
 							echo "<div class='resultCount'>";
-								echo "<h4>$countFilter result(s) returned.</h4>";
+								echo "<h4>$count result(s) returned.</h4>";
 							echo "</div>";
             }
 					?>
 					<div class="team-row resultsheader">	
 								<div class = "row" rowResults> 
 								<div class = "col-sm-3">ID</div>                  
-								<div class = "col-sm-4">LAST NAME</div>
-								<div class = "col-sm-4">FIRST NAME</div>
+								<div class = "col-sm-4">Resident</div>
+								<div class = "col-sm-4">Employee</div>
 								</div>
 							</div> 
 					<?php
-						if ($GLOBALS['countFilter'] > 0) {
+						if ($count > 0) {
 									echo"<div class='team-row sectionResults'>";	
   	                foreach($queryResults ['row'] as $column) {
 											echo "<a href='#' class='linkClick' data-toggle='modal'>";
-												echo"<div class='row rowResults rowResID_".$column['id']."'>"; 
-													echo"<div class='col-sm-3 rowId'>". $column['id'] . "</div>";
-													echo"<div class='col-sm-4 row_nameLast'>" . $column['userLastName'] . "</div>";
-													echo"<div class='col-sm-4 row_nameFirst'>" . $column['userFirstName'] . "</div>";                  
+												echo"<div class='row rowResults'>"; 
+													echo"<div class='col-sm-3 rowId'>". $column['date'] . "</div>";
+													echo"<div class='col-sm-3 row_nameLast'>" . $column['resident'] . "</div>";
+													echo"<div class='col-sm-4 row_nameFirst'>" . $column['employee'] . "</div>";                  
 												echo"</div>";
 											echo"</a>";
     								}
@@ -267,7 +244,7 @@ sec_session_start(); //start the session
 			</div>
 		</footer>
   <!-- modal HR Change Request form -->
-    <div class="modal fade" id="modal_User" role="dialog">
+        <div class="modal fade" id="modal_User" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -335,122 +312,9 @@ sec_session_start(); //start the session
 						</div>
 					</div>
         </div>
-		<!-- //modal --> 
-	  <!-- modal User Add form -->
- 		<div class="modal fade" id="contact_dialog" role="dialog">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">HR Change Request</h4>
-							</div>
-							<div class="modal-body">
-								<div class="sectionSearch">
-									<form id="contact_form" action="hrChangeRequest.php" method="POST">
-<!--row-->												
-										<div class="row rowHRChange">
-											<div class="col-sm-6">
-												<h4>Employee</h4>
-												<select name="formEmployee" id="formEmployee" class="employee">
-													<option value =""> - select - </option>
-													<?php 
-													if ($resNSearch->num_rows > 0) 
-													{
-														while ($row = $resNSearch->fetch_assoc())
-														{
-														/*sql query option for dropdown*/
-															echo "<option value = '{$row['EMPLOYEE_ID']} {$row['LAST_NAME']}, {$row['FIRST_NAME']} {$row['PHONE_NUMBER']} {$row['DEPARTMENT_ID']}'>";
-															echo"<div class='col-sm-2'>" . $row["LAST_NAME"] . " " . "</div>";	
-															echo"<div class='col-sm-2'>" . $row["FIRST_NAME"] . " " . "</div>";																		
-															echo "</option>";
-														/*end of sql query option*/			
-														}
-													}												
-													?>
-												</select>
-											</div>	
-										</div>
-<!--row-->
-										<div class="row rowHRChange underline">
-											<div class="col-sm-12">
-											<!--heading and paragraph are populated when an option is selected in the dropdown box.-->
-												<h4 id="currentheading"></h4>
-												<div class = "col-sm-1">
-													<h5 id="hID"></h5>
-													<p id="ResEmployeeID" ></p>	
-												</div>
-												<div class = "col-sm-2">
-													<h5 id="hLast"></h5>
-													<p id="ResEmployeeLast" ></p>															
-												</div>
-												<div class = "col-sm-2">
-													<h5 id="hFirst"></h5>
-													<p id="ResEmployeeFirst" ></p>															
-												</div>
-												<div class = "col-sm-4">
-													<h5 id="hPhone"></h5>
-													<p id="ResEmployeePhone" ></p>															
-												</div>
-												<div class = "col-sm-1">
-													<h5 id="hDept"></h5>
-													<p id="ResEmployeeDept" ></p>		
-												</div>
-											</div>
-										</div>
-<!--row-->
-										<div class="row rowHRChange">
-											<h2>New Employee Information</h2>
-										</div>	
-<!--row-->						<!--New employee information-->
-										<div class="row rowHRChange">
-											<div class="col-sm-6">
-												<label for="formEmployeeID" >Employee ID:</label>
-												<input type="text" name="formEmployeeID" id="formEmployeeID" readonly>
-											</div>
-										</div>												
-										<div class="row rowHRChange">												
-											<div class="col-sm-6">
-												<label for="newFirst">First Name:</label>
-												<input type="text" name = "newFirst" id="newFirst" >													
-											</div>
-											<div class="col-sm-6">
-												<label for="newLast">Last Name:</label>
-												<input type="text" name="newLast" id="newLast" >													
-											</div>												
-										</div>	
-										<div class="row rowHRChange">
-									  	<div class="col-sm-6">											
-												<label for="newPhone">Phone Number:</label>
-												<input type="text" name="newPhone" id="newPhone" >													
-											</div>
-									  	<div class="col-sm-6">
-												<label for="newDept">Department:</label>
-												<select name="FormDepartment" id="newDept" >
-													<option value =""> - select - </option>
-													<?php 
-														if ($resDep->num_rows > 0) 
-														{
-															while ($row = $resDep->fetch_assoc())
-															{
-    														echo "<option value = '{$row['DEPARTMENT_ID']}'>{$row['DEPARTMENT_ID']} - {$row['DEPARTMENT_NAME']}</option>";
-															}
-															echo "</select>";
-														}			
-													?>
-												</select>													
-											</div>
-										</div>
-									</form>
-								</div>	
-              </div>
-							<div class="modal-footer">
-								<button type="button" data-dismiss="modal">Close</button>
-								<button type="button" id="submitForm"  data-toggle="modal" data-target="#myModal" data-dismiss="modal">Submit</button>					
-							</div>
-						</div>
-					</div>
-        </div>
-		<!-- //modal -->  
+
+	
+				<!-- //modal -->  
 
 </body>
 <!-- //Body -->

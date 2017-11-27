@@ -5,19 +5,19 @@
 	License URL: http://creativecommons.org/licenses/by/3.0/
 -->
 <!DOCTYPE html>
- 	<?php
-	
-		include_once '../includes/database_connect.php'; //start the session
-		include_once '../includes/function.php';
- 		//sec_session_start();// Our custom secure way of starting a PHP 
-
-		 //check if user has logged in.  If not redirect to index page
-		 //if(login_check($db) == true) {
-  		 //$username = $_SESSION['username'];
-	//	 } else { 
-		//		 header('location:../index.html');
-		 //}
-
+ 	<?php	
+include_once'../includes/dBconnect.php';
+include_once '../includes/session.php';
+include_once '../includes/function.php';
+sec_session_start(); //start the session
+		// check if user has logged in.  If not redirect to index page
+		$password = $_SESSION['postpassword'];
+		if(login_check($password, $db) == true) {
+  		$username = $_SESSION['user']['username'];
+			
+		} else { 
+					header('location:../index.html');
+		}
 
 	?>
 <html>
@@ -60,91 +60,7 @@
 	</script>
 
 	
-<!--When employee dropdown name changes, show the values of the employee information-->	
-<script>
-	$(document).ready(function(){
-    $("#formEmployee").change(function(){	
-			var current = $('#formEmployee').val();
-			var splitcurrent = current.split(" ");
-			
-			var spCurrSize = splitcurrent.length;
-			
-			$("#formEmployeeID").val(splitcurrent[0]);
-			
-			var DDid = "", DDfirst = "", DDlast = "", DDphone = "", DDdepart = "";
-			if (spCurrSize > 1)
-			{
-				DDid = splitcurrent[0];
-				DDfirst = splitcurrent[2]
-				DDlast = splitcurrent[1];
-				DDphone = splitcurrent[3] + splitcurrent[4]
-				DDdepart = splitcurrent[5];		
-			}
-			
-			
-			//update values
-			document.getElementById("currentheading").innerHTML="Current Information:";
-			document.getElementById("hID").innerHTML="ID";
-			document.getElementById("hLast").innerHTML="Last";
-			document.getElementById("hFirst").innerHTML="First";
-			document.getElementById("hPhone").innerHTML="Phone";
-			document.getElementById("hDept").innerHTML="Dept";
-			document.getElementById("ResEmployeeID").innerHTML= DDid;
-			document.getElementById("ResEmployeeLast").innerHTML= DDlast;
-			document.getElementById("ResEmployeeFirst").innerHTML= DDfirst;
-			document.getElementById("ResEmployeePhone").innerHTML= DDphone;
-			document.getElementById("ResEmployeeDept").innerHTML=DDdepart;
-	    });
-	});
-</script>
 
-	
-	
-<script>
-    /*Submit HR Change Request Modal Form and get confirmation of success*/
-    $(document).ready(function () {
-        $("#contact_form").on("submit", function(e) {
-            var postData = $(this).serializeArray();
-            var formURL = $(this).attr("action");
-            $.ajax({
-                url: formURL,
-                type: "POST",
-                data: postData,
-                success: function(data, textStatus, jqXHR) {
-										$('#myModal .modal-header .modal-title').html("Submission Sent!");
-                    $('#myModal .modal-body').html(data);
-                },
-                error: function(jqXHR, status, error) {
-                    console.log(status + ": " + error);
-                }
-            });
-											
-            e.preventDefault();
-        });
-         
-        $("#submitForm").on('click', function() {
-          
-					$("#contact_form").submit();
-					
-					//Reset all HR Change Request form values 
-					document.getElementById("contact_form").reset();
-					
-					document.getElementById("currentheading").innerHTML="";
-					document.getElementById("hID").innerHTML="";
-					document.getElementById("hLast").innerHTML="";
-					document.getElementById("hFirst").innerHTML="";
-					document.getElementById("hPhone").innerHTML="";
-					document.getElementById("hDept").innerHTML="";
-					document.getElementById("ResEmployeeID").innerHTML="";
-					document.getElementById("ResEmployeeLast").innerHTML="";
-					document.getElementById("ResEmployeeFirst").innerHTML="";
-					document.getElementById("ResEmployeePhone").innerHTML="";
-					document.getElementById("ResEmployeeDept").innerHTML="";
-
-					
-        });
-    });
-	</script>
 	
 </head>
 <!-- //Head -->
@@ -192,14 +108,14 @@
 			<div class="row">
 				<div class="col-sm-4 dash-grids">
 					<div class="dash-grid-img"> 
-						<a href="#"  data-toggle="modal" data-target="#contact_dialog"><img src="../images/1485664694_Artboard_1.png" alt="Change Request Form"></a>
+						<a href="attendance.php"><img src="../images/1485664694_Artboard_1.png" alt="Change Request Form"></a>
 					</div>
 					<h4>Take Attendance</h4> 
 					<p>Record daily attendance.</p>
 				</div>
 				<div class="col-sm-4 dash-grids">				
 					<div class="dash-grid-img"> 
-						<a href="search.php"><img src="../images/1485663937_xmag.png" alt="search directory"></a>
+						<a href="resident.php"><img src="../images/1485663937_xmag.png" alt="search directory"></a>
 					</div>
 					<h4>Directory</h4>
 					<p>Review resident information and make changes or additions. </p>
@@ -243,123 +159,7 @@
 					</div>
         </div>
 
-	        <!-- modal HR Change Request form -->
-        <div class="modal fade" id="contact_dialog" role="dialog">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">HR Change Request</h4>
-							</div>
-							<div class="modal-body">
-								<div class="sectionSearch">
-									<form id="contact_form" action="hrChangeRequest.php" method="POST">
-<!--row-->												
-										<div class="row rowHRChange">
-											<div class="col-sm-6">
-												<h4>Employee</h4>
-												<select name="formEmployee" id="formEmployee" class="employee">
-													<option value =""> - select - </option>
-													<?php 
-													if ($resNSearch->num_rows > 0) 
-													{
-														while ($row = $resNSearch->fetch_assoc())
-														{
-														/*sql query option for dropdown*/
-															echo "<option value = '{$row['EMPLOYEE_ID']} {$row['LAST_NAME']}, {$row['FIRST_NAME']} {$row['PHONE_NUMBER']} {$row['DEPARTMENT_ID']}'>";
-															echo"<div class='col-sm-2'>" . $row["LAST_NAME"] . " " . "</div>";	
-															echo"<div class='col-sm-2'>" . $row["FIRST_NAME"] . " " . "</div>";																		
-															echo "</option>";
-														/*end of sql query option*/			
-														}
-													}												
-													?>
-												</select>
-											</div>	
-										</div>
-<!--row-->
-										<div class="row rowHRChange underline">
-											<div class="col-sm-12">
-											<!--heading and paragraph are populated when an option is selected in the dropdown box.-->
-												<h4 id="currentheading"></h4>
-												<div class = "col-sm-1">
-													<h5 id="hID"></h5>
-													<p id="ResEmployeeID" ></p>	
-												</div>
-												<div class = "col-sm-2">
-													<h5 id="hLast"></h5>
-													<p id="ResEmployeeLast" ></p>															
-												</div>
-												<div class = "col-sm-2">
-													<h5 id="hFirst"></h5>
-													<p id="ResEmployeeFirst" ></p>															
-												</div>
-												<div class = "col-sm-4">
-													<h5 id="hPhone"></h5>
-													<p id="ResEmployeePhone" ></p>															
-												</div>
-												<div class = "col-sm-1">
-													<h5 id="hDept"></h5>
-													<p id="ResEmployeeDept" ></p>		
-												</div>
-											</div>
-										</div>
-<!--row-->
-										<div class="row rowHRChange">
-											<h2>New Employee Information</h2>
-										</div>	
-<!--row-->						<!--New employee information-->
-										<div class="row rowHRChange">
-											<div class="col-sm-6">
-												<label for="formEmployeeID" >Employee ID:</label>
-												<input type="text" name="formEmployeeID" id="formEmployeeID" readonly>
-											</div>
-										</div>												
-										<div class="row rowHRChange">												
-											<div class="col-sm-6">
-												<label for="newFirst">First Name:</label>
-												<input type="text" name = "newFirst" id="newFirst" >													
-											</div>
-											<div class="col-sm-6">
-												<label for="newLast">Last Name:</label>
-												<input type="text" name="newLast" id="newLast" >													
-											</div>												
-										</div>	
-										<div class="row rowHRChange">
-									  	<div class="col-sm-6">											
-												<label for="newPhone">Phone Number:</label>
-												<input type="text" name="newPhone" id="newPhone" >													
-											</div>
-									  	<div class="col-sm-6">
-												<label for="newDept">Department:</label>
-												<select name="FormDepartment" id="newDept" >
-													<option value =""> - select - </option>
-													<?php 
-														if ($resDep->num_rows > 0) 
-														{
-															while ($row = $resDep->fetch_assoc())
-															{
-    														echo "<option value = '{$row['DEPARTMENT_ID']}'>{$row['DEPARTMENT_ID']} - {$row['DEPARTMENT_NAME']}</option>";
-															}
-															echo "</select>";
-														}			
-													?>
-												</select>													
-											</div>
-										</div>
-									</form>
-								</div>	
-              </div>
-							<div class="modal-footer">
-								<button type="button" data-dismiss="modal">Close</button>
-								<button type="button" id="submitForm"  data-toggle="modal" data-target="#myModal" data-dismiss="modal">Submit</button>					
-							</div>
-						</div>
-					</div>
-        </div>
-
 	
-				<!-- //modal -->  
 
 </body>
 <!-- //Body -->

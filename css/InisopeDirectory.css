@@ -129,22 +129,6 @@ td{
 }
 
 
-  /*header formatting for results on search page*/
-
-
-  /*Section stores the rows and columns of the search results*/
-  .sectionResults{
-    background: white;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 200px;
-  }
-
-  /*format the rows of the search results*/
-
-/*-------------------*/
-
-
 /*HR CHANGE REQUEST MODAL */
 
 

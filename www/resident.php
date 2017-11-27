@@ -11,7 +11,7 @@
 		include_once'../includes/dBconnect.php';
 		include_once '../includes/session.php';
 		include_once '../includes/function.php';
-    include_once '../includes/usersSearch.php';
+    include_once '../includes/resSearch.php';
 		include_once '../includes/userChanges.php';
 sec_session_start(); //start the session
 
@@ -26,10 +26,12 @@ sec_session_start(); //start the session
 	//used to determine if this is a page (load or modal submit) or if the filter form has been submitted.
 	//This will print the default query on the page load and modal submit.
 	//TO BE ADDED mehtod to revert back to the default query.
+print($_SERVER["REQUEST_METHOD"]);
 	if($_SERVER["REQUEST_METHOD"] == "GET" OR ($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal'])))
 	{
 		$queryResults = defaultQuery($db);	
 	}
+
 	/*if($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal']))
 	{
 		$queryResults = defaultQuery($db);	
@@ -39,7 +41,7 @@ sec_session_start(); //start the session
 <html>
 <!-- Head -->
 <head>
-	<title>User Page</title>
+	<title>Residents</title>
 	<!-- Meta-Tawgs -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -96,15 +98,12 @@ sec_session_start(); //start the session
 						<ul class="navList">
 							<li class="dropdown" style="padding: 0;">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Account <b class="caret"></b></a>
-									<ul class="dropdown-menu agile_short_dropdown">
-
-										<li style="padding: 0;"><a href="adminPage.php">Admin Page</a></li>                    
+									<ul class="dropdown-menu agile_short_dropdown">                 
 										<li style="padding: 0;"><a href="dashboard.php">Dashboard</a></li>                    
 										<li style="padding: 0;"><a href="Logout.php">Logout</a></li>
 									</ul>
 							</li>
 							<li>
-									<a class="navHidden" href="adminPage.php">Admin</a>
 									<a class="navHidden" href="dashboard.php">Dashboard</a>
 									<a class="navHidden" href="Logout.php">Logout</a>
 							</li>							
@@ -132,7 +131,7 @@ sec_session_start(); //start the session
 	<!-- Section -->
 	  <section id = "sectionEmployee" class="SectionContent sqlRes_table">
 		<div class="container">
-			<h1 class="section_head">Users</h1>
+			<h1 class="section_head">Residents</h1>
 				<div class="body">
 					<div class="team-row search">
 						<div class="col-md-3 team-grids">
@@ -182,7 +181,7 @@ sec_session_start(); //start the session
 							</div>
 						<div class="team-row">
 								<div class="col-md-4">
-									<button type="submit" name="formSubmit">Filter</button>	
+									<button type="submit" name="formSubmit">Filter</button>
 								</div>
 								<div class="col-md-4">									
 									<a href="#"data-toggle="modal" data-target="#contact_dialog">add user</a>
@@ -212,8 +211,8 @@ sec_session_start(); //start the session
 											echo "<a href='#' class='linkClick' data-toggle='modal'>";
 												echo"<div class='row rowResults rowResID_".$column['id']."'>"; 
 													echo"<div class='col-sm-3 rowId'>". $column['id'] . "</div>";
-													echo"<div class='col-sm-4 row_nameLast'>" . $column['userLastName'] . "</div>";
-													echo"<div class='col-sm-4 row_nameFirst'>" . $column['userFirstName'] . "</div>";                  
+													echo"<div class='col-sm-4 row_nameLast'>" . $column['ResLName'] . "</div>";
+													echo"<div class='col-sm-4 row_nameFirst'>" . $column['ResFName'] . "</div>";                  
 												echo"</div>";
 											echo"</a>";
     								}
@@ -267,7 +266,7 @@ sec_session_start(); //start the session
 			</div>
 		</footer>
   <!-- modal HR Change Request form -->
-    <div class="modal fade" id="modal_User" role="dialog">
+        <div class="modal fade" id="modal_User" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
@@ -335,8 +334,8 @@ sec_session_start(); //start the session
 						</div>
 					</div>
         </div>
-		<!-- //modal --> 
-	  <!-- modal User Add form -->
+				<!-- //modal -->
+		  <!-- modal User Add form -->
  		<div class="modal fade" id="contact_dialog" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -450,7 +449,7 @@ sec_session_start(); //start the session
 						</div>
 					</div>
         </div>
-		<!-- //modal -->  
+		<!-- //modal -->
 
 </body>
 <!-- //Body -->

@@ -1,35 +1,56 @@
 <?php
 include_once 'function.php';
-
+//include_once 'dBconnect.php';
 			//Build query to post changes to hr_change_request table
-			$sql_ChBuild = "";
-			$input="";
-			$inputChanges="";
-		$inputField="";
+			$inputValues="";
+			$inputField="";
+			$sqlInput="";
+			$sqlID="";
 
-"SELECT users.id, username, email, userFirstName, userLastName
-		FROM users 
-    INNER JOIN userInfo 
-    ON users.id = userInfo.id
-		$sql_Search
-		ORDER BY userLastName ASC";
-			$query_EmpChanges = "UPDATE  `users` SET  `username` =  'rlan' WHERE  `id` =2
-			VALUES ($sql_ChBuild)";
-
-		if(isset($_POST['formEmployeeChange']))
+		if($_SERVER["REQUEST_METHOD"]=="POST" AND isset($_POST['submitModal']) )
 		{
+				$id = $_POST['frm_id'];
 			if (isset($_POST['newFirst']) AND $_POST['newFirst'] != ''){
-				$inputField = sqlPost($_POST['newFirst']);
-				$inputChanges = ''
+				$firstName = $_POST['newFirst'];
+				$inputField = "`userFirstName` = :userFirst";
 			}
-			
-				$sql_ChBuild = sqlPost($_POST['newLast']);
+			if (isset($_POST['newLast']) AND $_POST['newLast'] != ''){
+				$lastName = $_POST['newLast'];
+				$inputField =$inputField.",`userLastName` = :userLast";
+			}
+		
+$query_UserInfo = "UPDATE `userinfo` SET $inputField WHERE `id` = :id";	
+
+$query_params1 = array(':id' => $id); 
+$query_params2 = array(':userFirst' => $firstName); 
+$query_params3 = array(':userLast' => $lastName); 
+
+			try{
+	 			// Prepare statement
+  	  	$stmt = $db->prepare($query_UserInfo);
+				$stmt->bindParam(':id', $id);
+				$stmt->bindParam(':userFirst', $firstName);
+				$stmt->bindParam(':userLast', $lastName);
+				// execute the query
+				$result=$stmt->execute();
+				   // echo a message to say the UPDATE succeeded
+  		  print $stmt->rowCount() . " records UPDATED successfully";
 				
-				$sql_ChBuild = $sql_ChBuild . sqlPost($_POST['newUsername']);
-				$sql_ChBuild = $sql_ChBuild . sqlPost($_POST['newPassword']);
-				$sql_ChBuild = $sql_ChBuild . sqlPost($_POST['newEmail']);		
-		}
-			
+
+			}catch(PDOException $ex) 
+			{ 
+				print($ex.message);
+      	$GLOBALS['errorMsg'] = $GLOBALS['somethingWrong'];
+        die($GLOBALS['somethingWrong']); 
+      }
+		}	
+
+		
+		print('<br>');
+		print($sqlID);
+		print($sqlInput);
+print('<br>');
+
 			$sqlBuildCount = 0;
 
 			function sqlPost($value)
@@ -40,25 +61,11 @@ include_once 'function.php';
 				
 				if($sqlBuildCount > 1)
 				{
-					return ", '$value'";
-					//return " AND $field$Radio'$wildCard$Name$wildCard'";
+					return "'$value'";
 				}else{
 					return "'$value'";					
 				}	
 			}
 			
-	
 
-			$query_EmpChanges = "UPDATE  `users` SET  `username` =  'rlan' WHERE  `id` =2
-			VALUES ($sql_ChBuild)";
-
-			$paramaters[0]="";
-			$paramaters[1]="";
-
-//Start
-			//$queryResults = sqlQuery($query_EmpChanges,$paramaters,$db);
-			//Second Table Update
-//end
-      echo $query_EmpChanges;
-//echo '<br>';
- //"INSERT INTO `svOperations`.`users` (`id` ,`username` ,`email`)  - use this to add new to the table
+ 

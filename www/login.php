@@ -6,7 +6,9 @@
 -->
 <!DOCTYPE html>
  	<?php	
-		include_once '../includes/login_process.php';
+		//require '../includes/login_process.php';
+include_once '../includes/session.php';
+require '../includes/commonMsg.php';
 
 ?>
 <html>
@@ -75,7 +77,7 @@
 					<div class="agileits-w3layouts-info">
 						<img src="images/g1.jpg" class="img-responsive" alt="" />
 						<!-- Login Form -->
-							<form id="loginform" method="post" action="login.php" id="loginform" class="modalInput">
+							<form id="loginform" method="post" action="../includes/login_process.php" id="loginform" class="modalInput">
 								<div class="login-Row">
 									<div class="login-col-1">			
 										<label for="username">Username:</label>

@@ -144,6 +144,9 @@
 									color: red;	
 									font-size: 18px;
 				}
+								section .body{
+									height: 87%;
+								}
 				.section_head {
 					text-align: center;
 					color: #f99104;
@@ -151,6 +154,7 @@
 					font-weight: 600;
 					text-transform: uppercase;
 					margin-bottom: 20px;
+					height: 10%;
 				}
 				.SectionContent{
 					overflow: auto;
@@ -161,7 +165,13 @@
 									margin: 16px 0;
 									line-height: 26px;
 								}
-
+ 								/*Section stores the rows and columns of the search results*/
+  								.sectionResults{
+    								background: white;
+    								overflow-y: scroll;
+    								overflow-x: hidden;
+										min-height: 60%;
+  								}
 
 
 	/*-- GENERAL - FOOTER --*/
@@ -341,6 +351,9 @@
 									.sqlRes_table .row input[type='text']{
 										width: 100%;
 									}
+									.sectionResults{
+										max-height: 60%;
+									}
 
 
 		/*-- GENERAL - ROW --*/
@@ -357,6 +370,7 @@
 									margin: 20px;
 									margin-left: auto;
 									margin-right: auto;
+									height: 10%;
   							}
 /*--// GENERAL END --*/
 
@@ -637,8 +651,17 @@
 								#sectionEmployee fieldset label{
     								font-size: 13px;
 								}
+								#sectionEmployee .search{
+									height: 3%;
+								}
 								#empChange #userInfo{
 									line-height: 1.2em;	
+								}
+								#filterEmployees{
+									height: 20%;
+								}
+								.resultCount{
+									float: right;	
 								}
 
 /*-- SEARCH-PHP --*/

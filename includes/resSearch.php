@@ -18,37 +18,27 @@
 			if (isset($_POST['formFilterID']) AND $_POST['formFilterID'] != ''){
 				$formFilterID_field = test_input($_POST['formFilterID']);	
 				$formFilterID_radio = $_POST['formFilterID_radio'];
-				$field = "users.id";
+				$field = "id";
 				$sql_Search = search($formFilterID_field, $formFilterID_radio, $field);
 			}			
 			if (isset($_POST['formLastName']) AND $_POST['formLastName'] != ''){	 
 				$formLastName_field = test_input($_POST['formLastName']);
 				$formLastName_radio = $_POST['formLastName_radio'];
-				$field = "userLastName";
+				$field = "ResLName";
 				$sql_Search = $sql_Search . search($formLastName_field, $formLastName_radio, $field);
 			}
 			if (isset($_POST['formFirstName']) AND $_POST['formFirstName'] != ''){
 				$formFirstName_field = test_input($_POST['formFirstName']);
 				$formFirstName_radio = $_POST["formFirstName_radio"];
-				$field = "userFirstName";
+				$field = "ResFName";
 				$sql_Search = $sql_Search . search($formFirstName_field, $formFirstName_radio, $field);
-			}
-									
-			if (isset($_POST['FormDepartment']) AND $_POST['FormDepartment'] != '')
-			{
-				$varDepartment = $_POST['FormDepartment'];
-				$varDRadio = "=";
-				$field = "DEPARTMENT_ID";
-				$sql_Search = $sql_Search . search($varDepartment, $varDRadio, $field);
 			}
 
   
-    $query_UserFilter = "SELECT users.id, username, email, userFirstName, userLastName
-		FROM users 
-    INNER JOIN userinfo 
-    ON users.id = userinfo.id
+    $query_UserFilter = "SELECT id, ResFName, ResLName
+		FROM residents 
 		$sql_Search
-		ORDER BY userLastName ASC";		
+		ORDER BY ResLName ASC";		
 			
 		
     $paramaters[0]="";
@@ -60,11 +50,9 @@
   }
 function defaultQuery($db){
     //Default queary when the employee page is loaded.
-    $query_UserFilter = "SELECT users.id, username, email, userFirstName, userLastName
-              FROM users 
-              INNER JOIN userinfo 
-              ON users.id = userinfo.id
-              ORDER BY userLastName ASC"; 
+    $query_UserFilter = "SELECT id, ResFName, ResLName
+              FROM residents 
+              ORDER BY ResLName ASC"; 
 
 
     $paramaters[0]="";
