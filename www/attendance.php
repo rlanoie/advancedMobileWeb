@@ -142,7 +142,7 @@ $count = $GLOBALS['countAttendance'];
 	<!-- Section -->
 	  <section id = "sectionEmployee" class="SectionContent sqlRes_table">
 		<div class="container">
-			<h1 class="section_head">Users</h1>
+			<h1 class="section_head">Attendance</h1>
 				<div class="body">
 					<form method="POST" name="filterEmployees" id="filterEmployees" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 						<div class="row">
