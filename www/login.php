@@ -70,9 +70,10 @@ require '../includes/commonMsg.php';
 				</div> 
 				<div class="login-body">
           <p class="loginError"><?php 
-  $printError = $GLOBALS['errorMsg'];
-    print("$printError");
-    ?> </p>
+  					$printError = $GLOBALS['usernamePassword'];
+    				print($printError);
+    				?>
+					</p>
 
 					<div class="agileits-w3layouts-info">
 						<img src="images/g1.jpg" class="img-responsive" alt="" />

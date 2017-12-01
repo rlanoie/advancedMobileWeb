@@ -26,11 +26,12 @@ sec_session_start(); //start the session
 	//used to determine if this is a page (load or modal submit) or if the filter form has been submitted.
 	//This will print the default query on the page load and modal submit.
 	//TO BE ADDED mehtod to revert back to the default query.
-print($_SERVER["REQUEST_METHOD"]);
+
 	if($_SERVER["REQUEST_METHOD"] == "GET" OR ($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal'])))
 	{
 		$queryResults = defaultQuery($db);	
 	}
+
 
 	/*if($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal']))
 	{

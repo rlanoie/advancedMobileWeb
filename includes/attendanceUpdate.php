@@ -24,10 +24,12 @@ function addAttendance($db)
 		
 			$query_attendanceUpdate = "INSERT INTO `attendance` (`date`, `UserID`, `ResID`)
 				VALUES(:frmDate, :userID, :resID)";
-
+			
 			$query_params1 = array(':frmDate' => $frmDate); 
 			$query_params2 = array(':userID' => $user_ID); 
 			$query_params3 = array(':resID' => $resID); 
+			print($query_attendanceUpdate);
+			print('<br>');
 			try{
 	 			// Prepare statement
   	  	$stmt = $db->prepare($query_attendanceUpdate);
@@ -39,7 +41,7 @@ function addAttendance($db)
 				   // echo a message to say the UPDATE succeeded
 				
   		  print $stmt->rowCount() . " records UPDATED successfully";
-				
+				print('<br>');
 			}catch(PDOException $ex) 
 			{ 
 				print($ex.message);
@@ -62,12 +64,8 @@ $queryAttendanceRecords = "SELECT attendance.date, userFirstName, userLastName, 
 			INNER JOIN residents
 			ON residents.id = attendance.ResID
 			ORDER BY ResLName ASC;";
-	print($queryAttendanceRecords);
-	print('<br><br>');
-	print('Additional Resident Records Available to enter are 50-100');
-		
-	
-    $paramaters[0]="";
+
+		$paramaters[0]="";
     $paramaters[1]="";
 
     $queryResults = sqlQuery($queryAttendanceRecords,$paramaters,$db);

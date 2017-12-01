@@ -3,7 +3,7 @@ $LockecAccount = "LOCKED ACCOUNT: Due to multiple login attempts your account ha
 
 $somethingWrong = "Uh, Oh, something went wrong.";
 
-$usernamePassword = "LOGIN ERROR: You have entered an incorrect username or password.";
+$usernamePassword = "LOGIN ERROR: <br>You have entered an incorrect username or password.";
 
 
 ?>

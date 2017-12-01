@@ -140,7 +140,7 @@
 				section {
 					height: 83%;
 				}
-								section .loginError{
+								#indexSection .loginError{
 									color: red;	
 									font-size: 18px;
 				}
@@ -170,7 +170,7 @@
     								background: white;
     								overflow-y: scroll;
     								overflow-x: hidden;
-										min-height: 60%;
+										min-height: 55%;
   								}
 
 
@@ -352,7 +352,7 @@
 										width: 100%;
 									}
 									.sectionResults{
-										max-height: 60%;
+										max-height: 55%;
 									}
 
 
@@ -658,11 +658,15 @@
 									line-height: 1.2em;	
 								}
 								#filterEmployees{
-									height: 20%;
+									height: 25%;
 								}
 								.resultCount{
 									float: right;	
 								}
+					#formUserChange{
+						overflow-y: scroll;
+					}
+	
 
 /*-- SEARCH-PHP --*/
 	.search .row{

@@ -30,10 +30,6 @@ sec_session_start(); //start the session
 	{
 		$queryResults = defaultQuery($db);	
 	}
-	/*if($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal']))
-	{
-		$queryResults = defaultQuery($db);	
-	}*/
 
 	?>
 <html>
@@ -148,9 +144,9 @@ sec_session_start(); //start the session
 			  			    <div data-role="fieldcontain">
 			      			  <fieldset data-role="controlgroup">
     	  		    			<input type="radio" name="formFilterID_radio" id="radio3_0" value="=" <?php echo ($formFilterID_radio=='=')?'checked':'' ?>>
-  	        					<label for="radio2_0">Exact Match</label>
-	          					<input type="radio" name="formID_radio" id="radio3_1" value=" LIKE " <?php echo ($formFilterID_radio==' LIKE ')?'checked':'' ?>/>
-											<label for="radio2_1">Contains</label>
+  	        					<label for="radio3_0">Exact Match</label>
+	          					<input type="radio" name="formFilterID_radio" id="radio3_1" value=" LIKE " <?php echo ($formFilterID_radio==' LIKE ')?'checked':'' ?>/>
+											<label for="radio3_1">Contains</label>
         						</fieldset>
       						</div>
 								</div>

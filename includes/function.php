@@ -17,7 +17,8 @@ function checkbrute($user_id, $db) {
               FROM `login_attempts` 
               WHERE user_id = :userID 
               AND time > '$valid_attempts'";
-
+print($valid_attempts);
+  print($query);
 
         try 
         { 
@@ -37,7 +38,6 @@ function checkbrute($user_id, $db) {
         }
         $row = $stmt->fetch(); 
         $count = $stmt->rowCount();
-        print("$count");
         // If there have been more than 3 failed logins lock the account.
         if ($count >= 2) //count starts at 0
         {
@@ -57,10 +57,6 @@ function sqlQuery($query, $Paramaters, $db){
     $result = $stmt->execute();   // Execute the prepared query.    
   }catch(PDOException $ex) 
   { 
-    print ($query);
-    print ($Paramaters[0]);
-    print ($Paramaters[1]);
-    
     echo $ex->getMessage();
     //die($GLOBALS['somethingWrong']); 
   }
@@ -118,7 +114,7 @@ function login($username, $db) {
               { 
                 $check_password = hash('sha256', $check_password . $row['salt']); 
               } 
-             
+             print($check_password);
               // Using the password submitted by the user and the salt stored in the database, see if passwords match. 
               if($check_password === $row['password']) 
               {
@@ -190,16 +186,7 @@ function login_check($password, $db){
            //If row exists then user exists.
            if($row) 
            {
-             
-       /*      print($row['password']);
-             print ('<br>');
-              
-              print($submitted_Password);
-             print ('<br>');*/
-               $current_loginString = hash('sha512', $submitted_Password . $user_browser);
-             /*print($current_loginString);
-             print ('<br>');
-             print($_SESSION['login_string']);*/
+            $current_loginString = hash('sha512', $submitted_Password . $user_browser);
             }
             if ($current_loginString === $_SESSION['login_string'])
             {

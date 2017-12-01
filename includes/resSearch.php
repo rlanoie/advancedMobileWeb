@@ -39,7 +39,7 @@
 		FROM residents 
 		$sql_Search
 		ORDER BY ResLName ASC";		
-			
+		
 		
     $paramaters[0]="";
     $paramaters[1]="";
@@ -59,7 +59,7 @@ function defaultQuery($db){
     $paramaters[1]="";
     $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
     $GLOBALS['countFilter'] = $queryResults['stmt']->rowCount();
-	
+	print($query_UserFilter);
 	return $queryResults;
 }
 
