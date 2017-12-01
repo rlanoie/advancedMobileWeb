@@ -16,7 +16,7 @@ sec_session_start(); //start the session
   		$username = $_SESSION['user']['username'];
 			
 		} else { 
-		//			header('location:../index.html');
+			header('location:../index.html');
 		}
 
 	?>
