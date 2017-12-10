@@ -106,12 +106,5 @@ function search($Name, $Radio, $field)
 }
 
 
-		//echo "<br>$sql<br>";
-		//query department list to populate department dropdown search
-		//$sqlDepartment = "SELECT DEPARTMENT_ID, DEPARTMENT_NAME 
-		//FROM  `department`";
-	
-		//$resDep = $db->query($sqlDepartment);
-
 	?>
 

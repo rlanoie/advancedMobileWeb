@@ -19,6 +19,9 @@
 		} else { 
 			header('location:../index.html');
 		}
+if($_SESSION['permissions']['users'] =='none'){
+	header('location:dashboard.php');
+}
 	?>
 
 <html>
@@ -48,12 +51,16 @@
 	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
 	
 	<script src="../js/main.js"></script>
+	<script src="../js/permission.js"></script>
 	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	
+
 </head>
 <!-- //Head -->
 <!-- Body -->
 <body>
+	
 	<!-- Header -->
 	<Header class="font">
 			<div class="container">
@@ -98,8 +105,8 @@
 			<div class="row">
 				<div class="col-sm-4 dash-grids">
 					<div class="dash-grid-img"> 
-						<a href="users.php">
-              <img src="../images/if_personal_1447.png" alt="Change Request Form">
+						<a href="#" id="btn_users" onClick="permission_click(this,'<?php echo $_SESSION['permissions']['users'];?>')">
+              <img src="../images/if_personal_1447.png" alt="User Access">
             </a>
 					</div>
 					<h4>User Access</h4> 
@@ -252,7 +259,7 @@
 					</div>
         </div>
 
-	
+
 				<!-- //modal -->  
 
 </body>

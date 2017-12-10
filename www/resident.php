@@ -23,6 +23,10 @@ sec_session_start(); //start the session
 		header('location:../index.html');
 	}
 
+if($_SESSION['permissions']['residents'] =='none'){
+	header('location:dashboard.php');
+}
+
 	//used to determine if this is a page (load or modal submit) or if the filter form has been submitted.
 	//This will print the default query on the page load and modal submit.
 	//TO BE ADDED mehtod to revert back to the default query.

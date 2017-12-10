@@ -82,10 +82,12 @@
 		display: flex;
 		align-items: center;
 	}
-.floatRight{
-	float: right;
-}
-
+	.floatRight{
+		float: right;
+	}
+	fieldset{
+		width: 100%;
+	}
 
 	/*-- GENERAL - HEADER --*/
 				Header{
@@ -196,6 +198,79 @@
 									background-color: black;
 									height: 100%;
 								}
+	/*-- GENERAL - INPUT CHECKBOX --*/
+				.square {
+					width: 28px;
+					height: 28px;
+					position: relative;
+					background: #fcfff4;
+					background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+					background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+					box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+				}
+								.square .in-active{
+									content: '';
+									width: 20px;
+    							height: 20px;
+    							position: absolute;
+    							top: 4px;
+    							left: 4px;
+    							background: -webkit-linear-gradient(top, #222222 0%, #45484d 100%);
+								  background: linear-gradient(to bottom, #222222 0%, #45484d 100%);
+    							box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
+								}
+								.square .in-active:after {	
+    							content: '';	
+									width: 16px;
+    								height: 16px;
+    								position: absolute;
+    								top: 2px;
+    								left: 2px;
+    								background: #27ae60;
+    								background: -webkit-linear-gradient(top, #817eed 0%, #301fc2 100%);
+    								background: linear-gradient(to bottom, #817eed 0%, #301fc2 100%);
+    								box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+    								opacity: 1;
+								}
+								.square .active{
+  								width: 20px;
+  								height: 20px;
+  								position: absolute;
+  								top: 4px;
+  								left: 4px;
+  								cursor: pointer;
+  								background: -webkit-linear-gradient(top, #222222 0%, #45484d 100%);
+  								background: linear-gradient(to bottom, #222222 0%, #45484d 100%);
+  								box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px white;
+								}
+
+								.square .active:after {
+									content: '';
+									width: 16px;
+									height: 16px;
+									position: absolute;
+									top: 2px;
+									left: 2px;
+									background: #27ae60;
+									background: -webkit-linear-gradient(top, #817eed 0%, #301fc2 100%);
+									background: linear-gradient(to bottom, #817eed 0%, #301fc2 100%);
+									box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+									opacity: 0;
+								}
+								.square .active:hover::after {
+									opacity: 0.3;
+								}
+								.square input[type=checkbox] {
+									visibility: hidden;
+								}
+								.square input[type=checkbox]:checked + .active:after {
+  								opacity: 1;
+								}
+	
+					.checkboxlabel{
+						margin: 0px;
+					}
+
 	/*-- GENERAL - LOGIN FORM --*/
 								#loginform input{
 									width: 100%;
@@ -234,8 +309,8 @@
 								}
 	/*-- GENERAL - LOGO --*/
 				.logo {
-				width: 50%;
-				float: left;
+					width: 50%;
+					float: left;
 				}
 								.logo a {
 									font-size: 40px;
@@ -262,12 +337,24 @@
 									color: #887956;
 									font-weight: 900;
 								}
-		/*-- MODAL --*/
+		/*-- GENERAL MODAL --*/
+				.modal-content{
+					max-height: 670px;	
+				}
+				.modal-body{
+					max-height: 536px;
+				}
+								.modal .formContent{
+									overflow-y: scroll;	
+									max-height: 300px;
+								}
 								.modal form{
   								margin-left: auto;
   								margin-right: auto;
 								}
-
+								.modal .checkboxlabel{
+									font-weight: bold;
+								}
 								#modal_User h2{
 									color: red;
 									font-weight: bold;
@@ -301,7 +388,6 @@
 									text-align:center;
 								}
 								.modal-body p{
-									margin: 1em 0 0 0;
 									font-size: 1em;
 									color: black;
 									line-height: 1.8em;
@@ -348,14 +434,13 @@
 									.sqlRes_table .row{
   									padding: 10px;
 									}
-									.sqlRes_table .row input[type='text']{
+									.sqlRes_table .row input[type='text'], .sqlRes_table .row input[type='date']{
 										width: 100%;
+										height: 28px;
 									}
 									.sectionResults{
 										max-height: 55%;
 									}
-
-
 		/*-- GENERAL - ROW --*/
 				.row{
 					min-width: 200px;
@@ -582,9 +667,6 @@
 
 /*--// INDEX END --*/
 
-/*-- LOGIN-PHP --*/
-
-/*--// LOGIN-PHP END --*/
 
 /*-- DASHBOARD-PHP --*/
 	.dash-grids h4 {
@@ -663,9 +745,6 @@
 								.resultCount{
 									float: right;	
 								}
-					#formUserChange{
-						overflow-y: scroll;
-					}
 	
 
 /*-- SEARCH-PHP --*/

@@ -59,7 +59,7 @@ function defaultQuery($db){
     $paramaters[1]="";
     $queryResults = sqlQuery($query_UserFilter,$paramaters,$db);
     $GLOBALS['countFilter'] = $queryResults['stmt']->rowCount();
-	print($query_UserFilter);
+	
 	return $queryResults;
 }
 

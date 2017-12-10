@@ -4,7 +4,7 @@
 	License: Creative Commons Attribution 3.0 Unported
 	License URL: http://creativecommons.org/licenses/by/3.0/
 -->
-
+<!--INSERT INTO `attendancedetails`(`date`) VALUES ('2017-11-26')-->
 
 <!DOCTYPE html>
  	<?php	
@@ -22,34 +22,22 @@ sec_session_start(); //start the session
   	$username = $_SESSION['user']['username'];
 		$userID = $_SESSION['user']['id'];
 
-	} else { 
+	} else {
 		header('location:../index.html');
 	}
-
 		date_default_timezone_set('America/Los_Angeles');
 		$today = date("Y-m-d");
 
-	//used to determine if this is a page (load or modal submit) or if the filter form has been submitted.
-	//This will print the default query on the page load and modal submit.
-	//TO BE ADDED mehtod to revert back to the default query.
-//	if($_SERVER["REQUEST_METHOD"] == "GET" OR ($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal'])))
-	//{
-		//$queryResults = defaultQuery($db);	
-		
-	//}
-$queryResults = addAttendance($db);
+$queryResults = addAttendance($today, $db);
 $count = $GLOBALS['countAttendance'];
 
-	/*if($_SERVER["REQUEST_METHOD"] == "POST" AND isset($_POST['submitModal']))
-	{
-		$queryResults = defaultQuery($db);	
-	}*/
-
+	
 	?>
 <html>
 <!-- Head -->
 <head>
 	<title>Attendance</title>
+	
 	<!-- Meta-Tawgs -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -70,7 +58,7 @@ $count = $GLOBALS['countAttendance'];
 	<!-- //Web-Fonts -->
 	<!-- Default-JavaScript-File -->
 	<script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<!--<script type="text/javascript" src="../js/bootstrap.min.js"></script>-->
 	
 	<script src="../js/main.js"></script>
 	
@@ -78,13 +66,34 @@ $count = $GLOBALS['countAttendance'];
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  <!--When employee dropdown name changes, show the values of the employee information-->	
-  	<!--Change the color of the employee ID after an employee is selected from the dropdown box-->
+	 <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+ 
 	<script>
-		$(document).ready(function(){
-    	$(".employee").change(function(){
-				$(formEmployeeID).css("background-color", "#D6D6FF");
-    	});
+         // trigger when button click
+		$('.alert').on('click', function(){
+			toastr["warning"]("Attendance is due!<br /><br /><button type='button' class='btn clear'>Yes</button>", "Module5");
+			//toastr["warning"]("Attendance is due!<br /><br /><button type="button" class="btn clear">Yes</button>", "Module5");
+		});
+		toastr.options = {
+			"closeButton": true,
+			"debug": false,
+			"newestOnTop": true,
+			"progressBar": false,
+			"positionClass": "toast-top-full-width",
+			"preventDuplicates": true,
+			"onclick": null,
+			"showDuration": "3000",
+			"hideDuration": "1000",
+			"timeOut": 0,
+			"extendedTimeOut": 0,
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut",
+			"tapToDismiss": false
+		}
 	</script>
 
 </head>
@@ -113,6 +122,7 @@ $count = $GLOBALS['countAttendance'];
 										<li style="padding: 0;"><a href="Logout.php">Logout</a></li>
 									</ul>
 							</li>
+
 							<li>
 									<a class="navHidden" href="adminPage.php">Admin</a>
 									<a class="navHidden" href="dashboard.php">Dashboard</a>
@@ -120,16 +130,7 @@ $count = $GLOBALS['countAttendance'];
 							</li>							
 						</ul>
 					</div>
-<!--Handle the dropdown for this page-->
-<script>
-	$(function() {                       
-  	$(".dropdown").click(function() {  
-    	$(this).addClass("open");      
-  	});
-	});
-	//Not working properly
-	
-</script>
+
 												
 				<!-- /navbar-collapse -->
 				</nav>
@@ -178,7 +179,7 @@ $count = $GLOBALS['countAttendance'];
 					<div class="team-row resultsheader">	
 								<div class = "row" rowResults> 
 								<div class = "col-sm-3">ID</div>                  
-								<div class = "col-sm-4">Resident</div>
+								<div class = "col-sm-3">Resident</div>
 								<div class = "col-sm-4">Employee</div>
 								</div>
 							</div> 

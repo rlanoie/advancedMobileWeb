@@ -18,10 +18,13 @@ sec_session_start(); //start the session
 // check if user has logged in.  If not redirect to index page
 	$password = $_SESSION['postpassword'];
 	if(login_check($password, $db) == true) {
-  	$username = $_SESSION['user']['username'];	
+  	$username = $_SESSION['user']['username'];
+		$permission = $_SESSION['permissions']['users'];
 	} else { 
 		header('location:../index.html');
 	}
+
+	
 
 	//used to determine if this is a page (load or modal submit) or if the filter form has been submitted.
 	//This will print the default query on the page load and modal submit.
@@ -56,7 +59,7 @@ sec_session_start(); //start the session
 	<!-- //Web-Fonts -->
 	<!-- Default-JavaScript-File -->
 	<script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
-	<script type="text/javascript" src="../js/bootstrap.min.js"></script>
+	<!--<script type="text/javascript" src="../js/bootstrap.min.js"></script>-->
 	
 	<script src="../js/main.js"></script>
 	
@@ -67,10 +70,93 @@ sec_session_start(); //start the session
   <!--When employee dropdown name changes, show the values of the employee information-->	
   	<!--Change the color of the employee ID after an employee is selected from the dropdown box-->
 	<script>
+		
+											
+											
+											
 		$(document).ready(function(){
-    	$(".employee").change(function(){
-				$(formEmployeeID).css("background-color", "#D6D6FF");
+			//check user permission settings
+			var thisPermission = "<?php echo $_SESSION['permissions']['users'] ?>";
+			
+			
+			switch (thisPermission) {
+				case 'none':  //redirect to the admin page
+					window.location = "../www/admin.php";
+					break;
+				case 'read': //lock all fieldsets to make the form readonly
+					$('#disableFilter').prop('disabled', true);
+					$('#disableUserChange').prop('disabled', true);
+					break;
+				case 'write':  //unlock all fieldsets to allow user to write to the page.
+					$('#disableFilter').prop('disabled', false);
+					$('#disableUserChange').prop('disabled', false);
+			}
+			
+    	$("#writeResidents").change(function(){
+       
+				var writeRes = document.getElementById("writeResidents").checked;
+				if (writeRes==true){
+					document.getElementById("readResident").checked = true;
+					$("#labelRResident").removeClass('active');
+					$("#labelRResident").addClass('in-active');
+				}else{
+					document.getElementById("readResident").checked = false;
+					$("#labelRResident").addClass('active');
+					$("#labelRResident").removeClass('in-active');
+				}
     	});
+			
+			
+    	$("#writeUsers").change(function(){
+       
+				var writeUser = document.getElementById("writeUsers").checked;
+				var readUser = document.getElementById("readUsers").checked;
+				if (writeUser==true){
+					document.getElementById("readUsers").checked = true;
+					document.getElementById("writeadmin").checked = true;
+					alert("read " + readUser +" write "+ writeUser );
+					
+					$("#labelRUsers").removeClass('active');
+					$("#labelRUsers").addClass('in-active');
+				}else{
+					document.getElementById("writeUsers").checked = false;
+					writeUser=false;
+					document.getElementById("readUsers").checked = false;
+					readUser=false;
+					$("#labelRUsers").addClass('active');
+					$("#labelRUsers").removeClass('in-active');
+					$("#labelWAdmin").addClass('active');
+					$("#labelWAdmin").removeClass('in-active');
+					alert("read " + readUser +" write "+ writeUser );
+				}
+				
+			
+				if((writeUser==false && readUser==false)==true) {
+					alert(writeUser);
+					document.getElementById("writeadmin").checked = false;
+				}else{
+					document.getElementById("writeadmin").checked = true;
+				}
+				
+    	});
+			
+			$("#readUsers").change(function(){
+				var readUser = document.getElementById("readUsers").checked;
+				
+				if (readUser==true){
+					document.getElementById("writeadmin").checked = true;
+					$("#labelWAdmin").removeClass('active');
+					$("#labelWAdmin").addClass('in-active');
+					alert("read " + readUser);
+				}else{
+					document.getElementById("writeadmin").checked = false;
+					$("#labelWAdmin").addClass('active');
+					$("#labelWAdmin").removeClass('in-active');
+				}
+			//$("#formFilterID :input").attr("disabled", true);
+			});	
+		});
+
 	</script>
 
 </head>
@@ -106,16 +192,7 @@ sec_session_start(); //start the session
 							</li>							
 						</ul>
 					</div>
-<!--Handle the dropdown for this page-->
-<script>
-	$(function() {                       
-  	$(".dropdown").click(function() {  
-    	$(this).addClass("open");      
-  	});
-	});
-	//Not working properly
-	
-</script>
+
 												
 				<!-- /navbar-collapse -->
 				</nav>
@@ -127,16 +204,17 @@ sec_session_start(); //start the session
   </Header>
 	<!-- Section -->
 	  <section id = "sectionEmployee" class="SectionContent sqlRes_table">
-		<div class="container">
-			<h1 class="section_head">Users</h1>
-				<div class="body">
-					<div class="team-row search">
-						<div class="col-md-3 team-grids">
-							<div id="flip"><a>Additional Search Features</a></div>																
+			<div class="container">
+				<h1 class="section_head">Users</h1>
+					<div class="body">
+						<div class="team-row search">
+							<div class="col-md-3 team-grids">
+								<div id="flip"><a>Additional Search Features</a></div>																
+							</div>
+							<div class="clearfix"> </div>
 						</div>
-						<div class="clearfix"> </div>
-					</div>
 					<form method="POST" name="filterEmployees" id="filterEmployees" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+						<fieldset id="disableFilter" class="disableform" disabled>
 						<div class="row">
 								<div class="col-md-3">
 									<h4>ID</h4> 
@@ -185,6 +263,7 @@ sec_session_start(); //start the session
 								</div> 
 								<div class="clearfix"> </div>
 							</div>
+						</fieldset>
 					</form>
 					<?php
           	if($_SERVER["REQUEST_METHOD"]=="POST" )
@@ -238,8 +317,46 @@ sec_session_start(); //start the session
 									function display_data() {
 										if (xhr.readyState == 4) {
       								if (xhr.status == 200) {
-       								
-												document.getElementById("Modal_CurrResult").innerHTML = xhr.responseText;
+	       								var data = xhr.responseText;
+												var split = xhr.responseText.split("|");
+    										
+												var attendancePerm = split[1];
+												var residentPerm = split[2];
+												var userPerm = split[3];
+												var adminPerm = split[4];
+													
+													//Attendance checkbox
+													if(attendancePerm=="write"){
+														document.getElementById("attendance").checked = true;
+													}
+													//Resident checkboxes
+													if(residentPerm=="read"){
+														document.getElementById("readResident").checked = true;
+													}
+													if(residentPerm=="write"){
+														$("#labelRResident").removeClass('active');
+														$("#labelRResident").addClass('in-active');
+														document.getElementById("writeResidents").checked = true;
+													}else{
+														$("#labelRResident").addClass('active');
+														$("#labelRResident").removeClass('in-active');														
+													}
+													//ADMIN PRIVLAGES
+													//User checkboxes
+													if(userPerm=="read"){
+														document.getElementById("readUsers").checked = true;
+														document.getElementById("writeadmin").checked = true;
+													}
+													if(userPerm=="write"){
+														$("#labelRUsers").removeClass('active');
+														$("#labelRUsers").addClass('in-active');
+														document.getElementById("writeUsers").checked = true;
+														document.getElementById("writeadmin").checked = true;
+													}else{
+														$("#labelRUsers").addClass('active');
+														$("#labelRUsers").removeClass('in-active');														
+													}
+												document.getElementById("Modal_CurrResult").innerHTML = split[0];
 												$('#modal_User').modal('show');
       								} else {
         								alert('There was a problem with the request.');
@@ -247,6 +364,8 @@ sec_session_start(); //start the session
      								}
 									}
 									$('#frm_id').val(rowID);
+									
+									
 								});
 							</script>
 				</div>      
@@ -264,73 +383,147 @@ sec_session_start(); //start the session
 		</footer>
   <!-- modal HR Change Request form -->
     <div class="modal fade" id="modal_User" role="dialog">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">&times;</button>
-								<h4 class="modal-title">User Information</h4>
-							</div>
-							<div class="modal-body">
-								<div class="sqlRes_table">
-									<div class = "body">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">User Information</h4>
+					</div>
+					<div class="modal-body">
+						<div class="sqlRes_table">
+							<div class = "body">
 <!--row-->	
-										<!--Displays the user's current information-->	
-										<div class="row underline">
-											<div class="col-sm-6">
-												<h4>User</h4>
-													<p id="Modal_CurrResult">
-													</p>												
-											</div>	
-										</div>
-										<form id="formUserChange" name="formUserChange" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">	
-<!--row-->
-											<div class="row">
-												<h2>New Employee Information</h2>
-											</div>
-											<div class="row">
-												<div class="col-sm-6">
-												<input type="hidden" class="form-control" name="frm_id" id="frm_id">
-												</div>
-											</div>
-<!--row-->							<!--New employee information-->
-											<div class="row">
-												<div class="col-sm-6">
-													<label for="newFirst">First Name:</label>
-													<input type="text" name = "newFirst" id="newFirst" >													
-												</div>
-												<div class="col-sm-6">
-													<label for="newLast">Last Name:</label>
-													<input type="text" name="newLast" id="newLast" >													
-												</div>												
-											</div>	
+						<!--Displays the user's current information-->	
+								<div class="row underline">
+									<div class="col-sm-6">
+										<h4>User</h4>
+										<p id="Modal_CurrResult"></p>												
+									</div>	
+								</div>
+								<div class="formContent">
+									<form id="formUserChange" name="formUserChange" method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">	
+										<fieldset id="disableUserChange">
 											
-											<div class="row">
-										  	<div class="col-sm-6">											
-													<label for="newUsername">Username:</label>
-													<input type="text" name="newUsername" id="newUsername" >	
-												</div>
-										  	<div class="col-sm-6">											
-													<label for="newPassword">Password:</label>
-													<input type="text" name="newPassword" id="newPassword" >													
-												</div>                      
-										  	<div class="col-sm-6">
-													<label for="newEmail">Email:</label>
-													<input type="text" name="newEmail" id="newEmail" >													
+<!--row-->
+										<div class="row">
+											<h2>New Employee Information</h2>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<input type="hidden" class="form-control" name="frm_id" id="frm_id">
+											</div>
+										</div>
+<!--row-->					<!--New employee information-->
+										<div class="row">
+											<div class="col-sm-6">
+												<label for="newFirst">First Name:</label>
+												<input type="text" name = "newFirst" id="newFirst" >													
+											</div>
+											<div class="col-sm-6">
+												<label for="newLast">Last Name:</label>
+												<input type="text" name="newLast" id="newLast" >													
+											</div>												
+										</div>	
+										<div class="row">
+										 	<div class="col-sm-6">											
+												<label for="newUsername">Username:</label>
+												<input type="text" name="newUsername" id="newUsername" >	
+											</div>
+											<div class="col-sm-6">											
+												<label for="newPassword">Password:</label>
+												<input type="text" name="newPassword" id="newPassword" >													
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-6">
+												<label for="newEmail">Email:</label>
+												<input type="text" name="newEmail" id="newEmail" >													
+											</div>
+										</div>
+										<div class="row">											
+											<h4>User Permissions<h4>
+										</div>
+<!--USER PERMISSIONS-->
+						<!--Attendance-->	
+										<div class="row">
+											<div class="col-sm-1">
+												<div class="square">
+													<input type="checkbox" name="attendance" id="attendance"  value="write">
+													<label for="attendance" class="active"></label>
 												</div>
 											</div>
+											<div class="col-sm-5">
+												<p class=checkboxlabel>Take Attendance</p>
+											</div>
+										</div>
+						<!--Residents-->
+										<div class="row">
+											<div class="col-sm-1">
+												<div class="square">
+													<input type="checkbox" name="readResident" id="readResident"  value="read">
+													<label for="readResident" id="labelRResident" class="active"></label>
+												</div>
+											</div>
+											<div class="col-sm-5">
+												<p class=checkboxlabel>View Resident List</p>
+											</div>
+										  <div class="col-sm-1">
+												<div class="square">
+													<input type="checkbox" name="writeResidents" id="writeResidents"  value="write">
+													<label for="writeResidents" class="active"></label>
+												</div>
+											</div>
+										  <div class="col-sm-5">
+												<p class=checkboxlabel>Make changes to residents</p>
+											</div>
+										</div>
+						<!--Users-->
+										<div class="row">
+											<div class="col-sm-1">
+												<div class="square">
+													<input type="checkbox" name="writeadmin" id="writeadmin"  value="write">
+													<label for="writeadmin" id="labelWAdmin" class="active"></label>
+												</div>
+											</div>
+											<div class="col-sm-5">
+												<p class=checkboxlabel>Admin Privileges</p>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-sm-1">
+												<div class="square">
+													<input type="checkbox" name="readUsers" id="readUsers"  value="read">
+													<label for="readUsers" id="labelRUsers" class="active"></label>
+												</div>
+											</div>
+											<div class="col-sm-5">
+												<p class=checkboxlabel>View Users</p>
+											</div>
+										  <div class="col-sm-1">
+												<div class="square">
+													<input type="checkbox" name="writeUsers" id="writeUsers"  value="write">
+													<label for="writeUsers" class="active"></label>
+												</div>
+											</div>
+										  <div class="col-sm-5">
+												<p class=checkboxlabel>Make changes to users</p>
+											</div>
+										</div>													
+										<div class="row">
 											<button type="submit" id="submitModal" name="submitModal" >Submit</button>															
-										</form>
-									</div>
-
-									
-								</div>	
-              </div>
-							<div class="modal-footer">
-
-							</div>
+										</div>
+										</fieldset>
+									</form>
+										
+								</div>
+							</div>	
 						</div>
 					</div>
-        </div>
+					<div class="modal-footer">
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- //modal --> 
 	  <!-- modal User Add form -->
  		<div class="modal fade" id="contact_dialog" role="dialog">
@@ -447,7 +640,6 @@ sec_session_start(); //start the session
 					</div>
         </div>
 		<!-- //modal -->  
-
 </body>
 <!-- //Body -->
 </html>

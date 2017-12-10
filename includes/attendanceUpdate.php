@@ -4,9 +4,8 @@ include_once 'function.php';
 			//Build query to post changes to hr_change_request table
 $GLOBALS['countAttendance']="";
 
-function addAttendance($db)
-{
-				$inputValues="";
+function addAttendance($date, $db){
+			$inputValues="";
 			$inputField="";
 			$sqlInput="";
 			$sqlID="";
@@ -49,12 +48,12 @@ function addAttendance($db)
         die($GLOBALS['somethingWrong']); 
       }
 		}
-	$results = attendanceList($db);
+	$results = attendanceList($date, $db);
 	return $results;
 }
 
-function attendanceList($db){
-
+function attendanceList($date, $db){
+$filterDate = $date;
 $queryAttendanceRecords = "SELECT attendance.date, userFirstName, userLastName, ResFName, ResLName,
 			CONCAT(ResFName, ' ', ResLName) AS resident,
 			CONCAT(userFirstName, ' ', userLastName) AS employee
@@ -63,35 +62,27 @@ $queryAttendanceRecords = "SELECT attendance.date, userFirstName, userLastName, 
 			ON userinfo.id = attendance.UserID
 			INNER JOIN residents
 			ON residents.id = attendance.ResID
+			WHERE date = :date 
 			ORDER BY ResLName ASC;";
 
-		$paramaters[0]="";
-    $paramaters[1]="";
-
-    $queryResults = sqlQuery($queryAttendanceRecords,$paramaters,$db);
-    $GLOBALS['countAttendance'] = $queryResults['stmt']->rowCount();
-		return $queryResults;
+		$query_params = array(':date' => $filterDate);
+		
+		try{
+  		$stmt = $db->prepare($queryAttendanceRecords);
+		  $stmt->bindParam(':date', $filterDate);
+	  	$result = $stmt->execute();   // Execute the prepared query. 
+		}catch(PDOException $ex) 
+		{ 
+		  die($GLOBALS['somethingWrong']); 
+		}
+		
+		$row = $stmt->fetch();
+    //$queryResults = sqlQuery($queryAttendanceRecords,$paramaters,$db);
+    $GLOBALS['countFilter'] = $stmt->rowCount();;
+	
+		return $row;
 }
-/*			try{
-	 			// Prepare statement
-  	  	$stmt = $db->prepare($queryAttendanceRecords);
-				// execute the query
-				$stmt->execute();
-				   // echo a message to say the UPDATE succeeded
-				$GLOBALS['countAttendance'] = $stmt->rowCount();
-				print($GLOBALS['countAttendance']);
-				print('<br>');
-  		  print $stmt->rowCount() . " records QUERIED successfully";
 
-			}catch(PDOException $ex) 
-			{ 
-				print($ex.message);
-      	$GLOBALS['errorMsg'] = $GLOBALS['somethingWrong'];
-        die($GLOBALS['somethingWrong']); 
-      }
-				$result = $stmt->fetchAll();	
-	return $result;
-}*/
 
 			
 

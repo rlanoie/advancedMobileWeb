@@ -3,17 +3,18 @@ include_once'../includes/dBconnect.php';
 include_once 'function.php';
 
 $selectionID = $_POST['getID'];
-$query = "SELECT users.id, username, email, userFirstName, userLastName
+
+$query = "SELECT users.id, username, email, userFirstName, userLastName, attendance, residents, users, admin
   					FROM users 
   					INNER JOIN userinfo 
-  					ON users.id = userinfo.id
+  					ON userinfo.id = users.id
+            INNER JOIN userpermissions
+            ON userpermissions.userID = users.id
             WHERE users.id = :selectionID
-  					ORDER BY userLastName ASC
             Limit 1";
     $query_params = array(':selectionID' => $selectionID);  
 
-try{
-  //$queryResults = sqlQuery($query, $query_params, $db);      
+try{     
   $stmt = $db->prepare($query);
   $stmt->bindParam(':selectionID', $selectionID);
   $result = $stmt->execute();   // Execute the prepared query. 
@@ -23,10 +24,23 @@ try{
 }
 
 $row = $stmt->fetch();
+$attendancePerm = $row['attendance'];
+$residentsPerm = $row['residents'];
+$userPerm = $row['users'];
+$adminPerm = $row['users'];
 
 echo "ID: " . $row['id'] . "<br>" .
     $row['userFirstName'] . " " . $row['userLastName'] . "<br>" .
     "Email: " . $row['email'] . "<br><br>" .
     "Username: " . $row['username'] . "<br>";
+echo "|";
+echo $attendancePerm;
+echo "|";
+echo $residentsPerm;
+echo "|";
+echo $userPerm;
+echo "|";
+echo $adminPerm;
+
   $_POST['formEmployeeID'] = $row['id'];
 

@@ -141,7 +141,8 @@ function login($username, $db) {
                 unset($row['password']); 
               
               //Store the user's data into the session at the index 'user'. 
-                $_SESSION['user'] = $row; 
+                $_SESSION['user'] = $row;
+                userPermissions($db);
               
               return true;
             } 
@@ -155,7 +156,7 @@ function login($username, $db) {
 }
 function login_check($password, $db){
     // Check if all session variables are set 
-  print($_SESSION['user']['id']);
+  
     if (isset($_SESSION['user']['id'], $_SESSION['user']['username'], $_SESSION['login_string'])) 
     {
       // Get the variables from the user login
@@ -207,5 +208,63 @@ function recordAttempt($user_id, $db){
   $quearyInsert = "INSERT INTO login_attempts(user_id, time) VALUES ('$user_id', '$now')";
   $db->query($quearyInsert);
 }
+
+
+function userPermissions($db){
+  $id = $_SESSION['user']['id'];
+  
+  $query = "SELECT users.id, attendance, residents, admin, users
+  					FROM users 
+  					INNER JOIN userpermissions
+            ON userpermissions.userID = users.id
+            WHERE users.id = :id
+            Limit 1";
+    $query_params = array(':id' => $id);
+  print($query);
+    try{
+      //$queryResults = sqlQuery($query, $query_params, $db);      
+      $stmt = $db->prepare($query);
+      $stmt->bindParam(':id', $id);
+      $result = $stmt->execute();   // Execute the prepared query. 
+    }catch(PDOException $ex) 
+    { 
+      die($GLOBALS['somethingWrong']); 
+    }
+    $row = $stmt->fetch();
+    $_SESSION['permissions'] = $row;
+}
+
+//Is the attendance still pending
+function attendanceStatus($qryDate, $db){
+	
+	$date = $qryDate;
+	
+	$query = "SELECT * FROM `attendancedetails` WHERE `date`= :date";
+	$query_params = array(':date' => $date);
+	try{     
+  	$stmt = $db->prepare($query);
+  	$stmt->bindParam(':date', $date);
+	  $result = $stmt->execute();   // Execute the prepared query. 
+	}catch(PDOException $ex) 
+	{ 
+  	die($GLOBALS['somethingWrong']); 
+	}
+	$row = $stmt->fetch();
+	if($row){
+		
+		if($row['closed']!='0000-00-00 00:00:00'){
+			return 'closed';
+		}elseif($row['opened']!='0000-00-00 00:00:00'){
+			return 'opened';
+		}else{
+			return 'no';
+		}
+	}else{
+		return 'no';
+	}
+}
+  
+
+
 
 ?>

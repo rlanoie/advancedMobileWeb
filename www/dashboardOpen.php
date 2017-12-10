@@ -11,12 +11,12 @@ include_once '../includes/session.php';
 include_once '../includes/function.php';
 sec_session_start(); //start the session
 		// check if user has logged in.  If not redirect to index page
-		$password = $_SESSION['postpassword'];
+	/*	$password = $_SESSION['postpassword'];
 		if(login_check($password, $db) == true) {
   		$username = $_SESSION['user']['username'];			
 		} else { 
 			header('location:../index.html');
-		}
+		}*/
 date_default_timezone_set('America/Los_Angeles');
 $today = date("Y-m-d");
 
@@ -139,8 +139,8 @@ $status = attendanceStatus($today, $db);
 				<!-- /navbar-collapse -->
 				</nav>
 					<div class = "TitlePosition TitleLeft">
-						<h1 class="TitleSm-view"><?php echo"$username"; ?></h1>
-						<h1 class="TitleLg-view"><?php echo"$username"; ?></h1>
+						<!--<h1 class="TitleSm-view"><?php echo"$username"; ?></h1>
+						<h1 class="TitleLg-view"><?php echo"$username"; ?></h1>-->
 					</div>
 			</div>
 	</header>
