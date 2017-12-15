@@ -4,8 +4,9 @@ include_once 'function.php';
 			//Build query to post changes to hr_change_request table
 $GLOBALS['countAttendance']="";
 
-function addAttendance($date, $db){
-			$inputValues="";
+function addAttendance($today, $db)
+{
+				$inputValues="";
 			$inputField="";
 			$sqlInput="";
 			$sqlID="";
@@ -48,12 +49,12 @@ function addAttendance($date, $db){
         die($GLOBALS['somethingWrong']); 
       }
 		}
-	$results = attendanceList($date, $db);
+	$results = attendanceList($today, $db);
 	return $results;
 }
 
-function attendanceList($date, $db){
-$filterDate = $date;
+function attendanceList($today, $db){
+
 $queryAttendanceRecords = "SELECT attendance.date, userFirstName, userLastName, ResFName, ResLName,
 			CONCAT(ResFName, ' ', ResLName) AS resident,
 			CONCAT(userFirstName, ' ', userLastName) AS employee
@@ -62,27 +63,41 @@ $queryAttendanceRecords = "SELECT attendance.date, userFirstName, userLastName, 
 			ON userinfo.id = attendance.UserID
 			INNER JOIN residents
 			ON residents.id = attendance.ResID
-			WHERE date = :date 
+			WHERE date = :date
 			ORDER BY ResLName ASC;";
-
-		$query_params = array(':date' => $filterDate);
-		
-		try{
-  		$stmt = $db->prepare($queryAttendanceRecords);
-		  $stmt->bindParam(':date', $filterDate);
-	  	$result = $stmt->execute();   // Execute the prepared query. 
-		}catch(PDOException $ex) 
-		{ 
-		  die($GLOBALS['somethingWrong']); 
+ 		try{
+            //$queryResults = sqlQuery($query, $query_params, $db);      
+      $stmt = $db->prepare($queryAttendanceRecords);
+      $stmt->bindParam(':date', $today);
+    	$result = $stmt->execute();   // Execute the prepared query.    
+    }catch(PDOException $ex) 
+    { 
+    	die($GLOBALS['somethingWrong']); 
 		}
-		
-		$row = $stmt->fetch();
-    //$queryResults = sqlQuery($queryAttendanceRecords,$paramaters,$db);
-    $GLOBALS['countFilter'] = $stmt->rowCount();;
-	
-		return $row;
+	$queryResults= $stmt->fetchAll();
+    $GLOBALS['countAttendance'] = $stmt->rowCount();
+		return $queryResults;
 }
+/*			try{
+	 			// Prepare statement
+  	  	$stmt = $db->prepare($queryAttendanceRecords);
+				// execute the query
+				$stmt->execute();
+				   // echo a message to say the UPDATE succeeded
+				$GLOBALS['countAttendance'] = $stmt->rowCount();
+				print($GLOBALS['countAttendance']);
+				print('<br>');
+  		  print $stmt->rowCount() . " records QUERIED successfully";
 
+			}catch(PDOException $ex) 
+			{ 
+				print($ex.message);
+      	$GLOBALS['errorMsg'] = $GLOBALS['somethingWrong'];
+        die($GLOBALS['somethingWrong']); 
+      }
+				$result = $stmt->fetchAll();	
+	return $result;
+}*/
 
 			
 
